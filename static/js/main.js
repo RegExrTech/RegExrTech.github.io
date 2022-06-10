@@ -7,26 +7,33 @@ function Get(yourUrl) {
 
 // Load in the ban list
 user_map = new Map();
-const users = JSON.parse(Get('https://www.reddit.com/r/UniversalScammerList/wiki/banlist.json')).data.content_md.split("\n");
-for (const user of users) {
-	const parts = user.split(" ");
-	const username = parts[1].toLowerCase();
-	const tags = parts.slice(2, parts.length);
-	user_map.set(username, tags);
+const ban_list_pages = JSON.parse(Get('https://www.reddit.com/r/UniversalScammerList/wiki/banlist.json')).data.content_md.split("\n");
+for (const page_context of ban_list_pages) {
+	page_number = page_context.split(" ")[2].split("]")[0];
+	const users = JSON.parse(Get('https://www.reddit.com/r/UniversalScammerList/wiki/banlist/'+page_number+'.json')).data.content_md.split("\n");
+	for (const user of users) {
+		const parts = user.split(" ");
+		const username = parts[1].toLowerCase();
+		const tags = parts.slice(2, parts.length);
+		user_map.set(username, tags);
+	}
 }
 
 // Load the context list
 context_map = new Map();
-const context = JSON.parse(Get('https://www.reddit.com/r/UniversalScammerList/wiki/bot_actions.json')).data.content_md.split("\n");
-for (const context_line of context) {
-	if (!context_line.includes("* u/")) {
-		continue;
+const bot_action_pages = JSON.parse(Get('https://www.reddit.com/r/UniversalScammerList/wiki/bot_actions.json')).data.content_md.split("\n");
+for (const context_page of bot_action_pages) {
+	const context = JSON.parse(Get(context_page.split("* ")[1]+'.json')).data.content_md.split("\n");
+	for (const context_line of context) {
+		if (!context_line.includes("* u/")) {
+			continue;
+		}
+		const username = context_line.split(" ")[1].split("u/")[1].toLowerCase();
+		if (!context_map.get(username)) {
+			context_map.set(username, []);
+		}
+		context_map.get(username).push(context_line.split(" was ")[1]);
 	}
-	const username = context_line.split(" ")[1].split("u/")[1].toLowerCase();
-	if (!context_map.get(username)) {
-		context_map.set(username, []);
-	}
-	context_map.get(username).push(context_line.split(" was ")[1]);
 }
 
 function GetBanTags(username) {
