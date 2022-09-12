@@ -5,7 +5,8 @@
 
 <body>
 	<p style="font-size: 36px;">Universal Scammer List</p>
-	<form action=javascript:GetBanTags(username.value);>
+	<div id="databaseLoadStatus" style="visibility: visible;">Loading Database...</div>
+	<form id="inputBox" style="visibility: hidden;" action=javascript:GetBanTags(username.value);>
 		Username: <input id="username" name="username">
 		<input type="submit" value="Submit">
 	</form>

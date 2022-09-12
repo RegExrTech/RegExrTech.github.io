@@ -5,6 +5,44 @@ function Get(yourUrl) {
 	return Httpreq.responseText;
 }
 
+function GetBanTags(username) {
+	const username_parts = username.split("/");
+	username = username_parts[username_parts.length-1].toLowerCase();
+	const tags = user_map.get("/u/"+username);
+	if (typeof tags === 'undefined') {
+		text = "/u/" + username + " is not banned";
+		document.getElementById('userStatus').style.color = "green";
+	}
+	else {
+		text = "/u/" + username + " is banned with the following tags: " + tags.join(" ");
+		document.getElementById('userStatus').style.color = "red";
+	}
+	document.getElementById('userStatus').innerHTML = text;
+	document.getElementById('userStatusAndButton').style.visibility = "visible";
+	document.getElementById('copyStatus').style.visibility = "hidden";
+	let ul = document.getElementById('userHistory');
+	ul.innerHTML = "";
+	const context_lines = context_map.get(username);
+	if (typeof context_lines !== 'undefined') {
+		for (context_line of context_lines) {
+			let li = document.createElement("li");
+			li.innerHTML = context_line;
+			ul.appendChild(li);
+		}
+	}
+}
+
+
+// Copy the USL URL
+function copyURL(username) {
+	navigator.clipboard.writeText("https://www.universalscammerlist.com?username=" + username);
+	document.getElementById('copyStatus').style.visibility = "visible";
+}
+
+///////////////////
+// ON LOAD BELOW //
+///////////////////
+
 // Load in the ban list
 user_map = new Map();
 const ban_list_pages = JSON.parse(Get('https://www.reddit.com/r/UniversalScammerList/wiki/banlist.json')).data.content_md.split("\n");
@@ -36,33 +74,6 @@ for (const context_page of bot_action_pages) {
 	}
 }
 
-function GetBanTags(username) {
-	const username_parts = username.split("/");
-	username = username_parts[username_parts.length-1].toLowerCase();
-	const tags = user_map.get("/u/"+username);
-	if (typeof tags === 'undefined') {
-		text = "/u/" + username + " is not banned";
-		document.getElementById('userStatus').style.color = "green";
-	}
-	else {
-		text = "/u/" + username + " is banned with the following tags: " + tags.join(" ");
-		document.getElementById('userStatus').style.color = "red";
-	}
-	document.getElementById('userStatus').innerHTML = text;
-	document.getElementById('userStatusAndButton').style.visibility = "visible";
-	document.getElementById('copyStatus').style.visibility = "hidden";
-	let ul = document.getElementById('userHistory');
-	ul.innerHTML = "";
-	const context_lines = context_map.get(username);
-	if (typeof context_lines !== 'undefined') {
-		for (context_line of context_lines) {
-			let li = document.createElement("li");
-			li.innerHTML = context_line;
-			ul.appendChild(li);
-		}
-	}
-}
-
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 for (const [key, value] of urlParams.entries()) {
@@ -71,8 +82,5 @@ for (const [key, value] of urlParams.entries()) {
 if (urlParams.get("username")) {
 	GetBanTags(urlParams.get("username"));
 }
-
-function copyURL(username) {
-	navigator.clipboard.writeText("https://www.universalscammerlist.com?username=" + username);
-	document.getElementById('copyStatus').style.visibility = "visible";
-}
+document.getElementById('databaseLoadStatus').style.visibility = "hidden";
+document.getElementById('inputBox').style.visibility = "visible";
