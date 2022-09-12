@@ -9,7 +9,11 @@
 		Username: <input id="username" name="username">
 		<input type="submit" value="Submit">
 	</form>
-	<div id="userStatus"></div>
+	<div id="userStatusAndButton" style="display:flex; visibility: hidden;">
+		<div id="userStatus" style="margin-right: 10px;"></div>
+		<button onclick="copyURL(username.value)" style="margin-right: 10px;">Copy URL</button>
+		<div id="copyStatus" style="visibility: hidden;">Copied!</div>
+	</div>
 	<ul id="userHistory"></ul>
 	<script src="static/js/main.js" ></script>
 </body>

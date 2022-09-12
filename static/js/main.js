@@ -42,13 +42,15 @@ function GetBanTags(username) {
 	const tags = user_map.get("/u/"+username);
 	if (typeof tags === 'undefined') {
 		text = "/u/" + username + " is not banned";
-		document.getElementById('userStatus').style = "color:green;";
+		document.getElementById('userStatus').style.color = "green";
 	}
 	else {
 		text = "/u/" + username + " is banned with the following tags: " + tags.join(" ");
-		document.getElementById('userStatus').style = "color:red;";
+		document.getElementById('userStatus').style.color = "red";
 	}
 	document.getElementById('userStatus').innerHTML = text;
+	document.getElementById('userStatusAndButton').style.visibility = "visible";
+	document.getElementById('copyStatus').style.visibility = "hidden";
 	let ul = document.getElementById('userHistory');
 	ul.innerHTML = "";
 	const context_lines = context_map.get(username);
@@ -68,4 +70,9 @@ for (const [key, value] of urlParams.entries()) {
 }
 if (urlParams.get("username")) {
 	GetBanTags(urlParams.get("username"));
+}
+
+function copyURL(username) {
+	navigator.clipboard.writeText("https://www.universalscammerlist.com?username=" + username);
+	document.getElementById('copyStatus').style.visibility = "visible";
 }
