@@ -1,9 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<title>Search</title>
+	<link rel="stylesheet" href="static/css/header.css">
 </head>
 
 <body>
+	<div class="header">
+		<a class="active" href="#index">Search</a>
+		<a href="#start">Getting Started</a>
+		<a href="#about">How To</a>
+		<a href="#subreddits">Participants</a>
+		<a href="https://kofi.regexr.tech/">Donate</a>
+	</div>
 	<p style="font-size: 36px;">Universal Scammer List</p>
 	<div id="databaseLoadStatus" style="visibility: visible;">Loading Database...</div>
 	<form id="inputBox" style="visibility: hidden;" action=javascript:GetBanTags(username.value);>

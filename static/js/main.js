@@ -61,7 +61,8 @@ for (const page_context of ban_list_pages) {
 context_map = new Map();
 const bot_action_pages = JSON.parse(Get('https://www.reddit.com/r/UniversalScammerList/wiki/bot_actions.json')).data.content_md.split("\n");
 for (const context_page of bot_action_pages) {
-	const context = JSON.parse(Get(context_page.split("* ")[1]+'.json')).data.content_md.split("\n");
+	context = JSON.parse(Get(context_page.split("* ")[1]+'.json')).data.content_md.split("\n");
+	context.reverse();
 	for (const context_line of context) {
 		if (!context_line.includes("* u/")) {
 			continue;
