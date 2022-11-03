@@ -1,21 +1,42 @@
 <!DOCTYPE html>
-<html>
-<head>
-</head>
+<html lang="en">
+  <head>
+    <title>UniversalScammerList - Search</title>
+    <meta charset="utf-8" />
+    <meta
+      content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover"
+      name="viewport" />
+    <meta content="UniversalScammerList" property="og:site_name" />
+    <meta content="website" propety="og:type" />
+    <meta content="Search the Universal Scammer List" property="og:title" />
+    <meta
+      content="The system supporting a collection of subreddits who agree to work together to limit the impact that those who have scammed"
+      property="og:description" />
+    <meta content="https://RegExrTech.github.io" property="og:url" />
+    <link rel="stylesheet" href="static/css/header.css" />
+  </head>
 
-<body>
-	<p style="font-size: 36px;">Universal Scammer List</p>
-	<div id="databaseLoadStatus" style="visibility: visible;">Loading Database...</div>
-	<form id="inputBox" style="visibility: hidden;" action=javascript:GetBanTags(username.value);>
-		Username: <input id="username" name="username">
-		<input type="submit" value="Submit">
-	</form>
-	<div id="userStatusAndButton" style="display:flex; visibility: hidden;">
-		<div id="userStatus" style="margin-right: 10px;"></div>
-		<button onclick="copyURL(username.value)" style="margin-right: 10px;">Copy URL</button>
-		<div id="copyStatus" style="visibility: hidden;">Copied!</div>
-	</div>
-	<ul id="userHistory"></ul>
-	<script src="static/js/main.js" ></script>
-</body>
+  <body>
+    <div class="header">
+      <a class="active" href="/index">Search</a>
+      <a href="/start">Getting Started</a>
+      <a href="/about">How To</a>
+      <a href="/subreddits">Participants</a>
+      <a href="/tags">Tags</a>
+      <a href="https://kofi.regexr.tech/">Donate</a>
+    </div>
+    <p style="font-size: 36px">Universal Scammer List</p>
+    <div id="databaseLoadStatus" style="visibility: visible">Loading Database...</div>
+    <form id="inputBox" style="visibility: hidden" action="javascript:GetBanTags(username.value);">
+      Username: <input id="username" name="username" />
+      <input type="submit" value="Submit" />
+    </form>
+    <div id="userStatusAndButton" style="display: flex; visibility: hidden">
+      <div id="userStatus" style="margin-right: 10px"></div>
+      <button onclick="copyURL(username.value)" style="margin-right: 10px">Copy URL</button>
+      <div id="copyStatus" style="visibility: hidden">Copied!</div>
+    </div>
+    <ul id="userHistory"></ul>
+    <script src="static/js/main.js"></script>
+  </body>
 </html>

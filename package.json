@@ -1,0 +1,22 @@
+{
+  "name": "regexrtech.github.io",
+  "version": "1.0.0",
+  "description": "website for universal scammer list",
+  "main": "static/js/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RegExrTech/RegExrTech.github.io.git"
+  },
+  "author": "RegExrTech",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RegExrTech/RegExrTech.github.io/issues"
+  },
+  "homepage": "https://github.com/RegExrTech/RegExrTech.github.io#readme",
+  "devDependencies": {
+    "prettier": "2.7.1"
+  }
+}

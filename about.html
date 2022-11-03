@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>About The USL</title>
+    <meta charset="utf-8" />
+    <meta
+      content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover"
+      name="viewport" />
+    <meta content="UniversalScammerList" property="og:site_name" />
+    <meta content="website" propety="og:type" />
+    <meta content="Learn about the Universal Scammer List" property="og:title" />
+    <meta
+      content="The system supporting a collection of subreddits who agree to work together to limit the impact that those who have scammed"
+      property="og:description" />
+    <meta content="https://RegExrTech.github.io/about" property="og:url" />
+    <link rel="stylesheet" href="static/css/header.css" />
+  </head>
+  <body>
+    <div class="header">
+      <a href="/index">Search</a>
+      <a href="/start">Getting Started</a>
+      <a class="active" href="/about">How To</a>
+      <a href="/subreddits">Participants</a>
+      <a href="/tags">Tags</a>
+      <a href="https://kofi.regexr.tech/">Donate</a>
+    </div>
+    <h3>About The Universal Scammer List</h3>
+    <p>
+      The Universal Scammer List is the system supporting a collection of subreddits who agree to
+      work together to limit the impact that those who have scammed or have shown the intention to
+      scam can have on members of Buy/Sell/Trade communities.
+    </p>
+    <p>
+      This document assumes that you are a moderator of a subreddit participating in the Universal
+      Scammer List (USL). If you are looking to see if a user is banned, please check
+      <a href="/index.html">the main search page</a> instead. If you are interested in having your
+      subreddit join the USL, please check
+      <a href="/start.html"> the Getting Started page</a> instead.
+    </p>
+    <h3>Issuing a Ban</h3>
+    <p>
+      If a user needs to be banned from your community and you want that ban to carry through to the
+      entire USL, ban the user as normal but be sure to include a "usl tag" in the
+      <b>MOD NOTE</b> of the ban. A tag is a # character, followed by a single word (like #scammer).
+      These tags tell the USL bot that it should propagate the ban to the list and issue
+      corresponding bans to the subreddits that subscribe to the relevant tag.
+    </p>
+    <p>
+      Note that bans can include multiple tags! If you feel that someone is worthy of multiple
+      descriptive words, you can include multiple tags in the mod note of the ban.
+    </p>
+    <h3>Removing a Ban</h3>
+    <p>
+      If you wish to remove a ban, please send a message to your subreddot-specific USL bot with the
+      following text in the body:
+    </p>
+    <p><code>$unban u/test_account #usltag</code></p>
+    <p>
+      Where <code>u/test_account</code> is the name of the user you wish to unban and
+      <code>#usltag</code> is the tag you wish to remove. Doing so will remove the tag(s) in
+      question from the user on the USL. If the tag(s) removed result in the user not having any
+      tags to which a subreddit is subscribed, that user will be unbanned from that subreddit.
+    </p>
+    <p>
+      For example, if a user is banned from r/FunkoSwap with the tags #scammer and #sketchy, the
+      user will be banned on all subs that subscribe to either of those tags. However, if the
+      moderators of r/FunkoSwap decide that the user is, in fact, not a scammer, but still sketchy,
+      the mods of r/FunkoSwap can remove the #scammer tag with the above command. When this happens,
+      any subreddits that subscribe to the #scammer tag but NOT to the #sketchy tag will have this
+      user unbanned from their community.
+    </p>
+    <p>
+      Please note that ONLY moderators of the subreddit from which the ban originated can remove a
+      USL ban in this way.
+    </p>
+    <h3>Modifying a Ban</h3>
+    <p>
+      If you wish to add another tag to a banned user, you must first locally unban the user (aka
+      through subreddit config, NOT via PM to the bot) and then <i>reban</i> the user, including ALL
+      tags that you wish to apply to the user.
+    </p>
+    <h3>Common Tags</h3>
+    <p>The following tags are common tags which can be used to ban a user in any subreddit:</p>
+    <ul>
+      <li>scammer</li>
+      <li>sketchy</li>
+      <li>compromised</li>
+      <li>troll</li>
+    </ul>
+    <p>
+      If you wish to add more tags, please contact RegExr either via Reddit or Discord with your
+      request.
+    </p>
+    <h3>Private Tags</h3>
+    <p>
+      Some communities use the USL to propagate bans between communities that are unrelated to
+      scamming. Considering this is the Universal <b>SCAMMER</b> List, these bans are not relevant
+      to the majority of users. As such, these bans will be tracked by the system but will NOT
+      appear in the action log, the ban list, the USL site search bar, or the USL browser extension.
+      The bans are still being tracked and working as intended, but they are not visible to anyone
+      outside of the moderation team.
+    </p>
+    <p>
+      If you wish to use private tags in your communities, please reach out to RegExr to get set up
+      with a new tag.
+    </p>
+    <h3>Subscribing to New Tags</h3>
+    <p>
+      If you wish to subscribe your community to a new tag, please edit your community's
+      configuration located in your community's wiki page. Please view
+      <a href="https://www.reddit.com/r/subredditname/wiki/usl_config/"
+        >https://www.reddit.com/r/subredditname/wiki/usl_config/</a
+      >
+      where <code>subredditname</code> is the name of your community. From here, you can edit the
+      config to add or remove tags.
+    </p>
+    <p>
+      Once you update and save the config, the bot will send you a PM indicating the status of your
+      update. If the update was successful, no further action is required from you. However, if the
+      update was unsuccessful, the bot will reset the config and ask you to try again.
+    </p>
+    <p>
+      To correctly update the config, please add new tags to the line starting with
+      <code>tags:</code>. Each tag should be separated by a comma. You can have whitespace on either
+      side of the comma and the # character is not required. The bot will do its best to parse your
+      changes and modify it to a format it expects. If, for any reason, you cannot get your change
+      to go through, please contact RegExr for assistance.
+    </p>
+  </body>
+</html>
