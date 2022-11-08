@@ -54,7 +54,7 @@ last_wiki_page_number = parseInt(last_wiki_page_split[last_wiki_page_split.lengt
 bot_action_pages = [];
 current_page = 1;
 while (current_page < last_wiki_page_number) {
-	bot_action_pages.push("https://regexrtech.github.io/static/data/banlist_" + String(current_page) + ".json");
+	bot_action_pages.push("http://www.universalscammerlist.com/static/data/banlist_" + String(current_page) + ".json");
 	current_page = current_page + 1;
 }
 bot_action_pages.push('https://www.reddit.com/r/UniversalScammerList/wiki/banlist/' + last_wiki_page_number + '.json');
@@ -81,7 +81,7 @@ last_wiki_page_number = parseInt(last_wiki_page_split[last_wiki_page_split.lengt
 bot_action_pages = [];
 current_page = 1;
 while (current_page < last_wiki_page_number) {
-	bot_action_pages.push("https://regexrtech.github.io/static/data/bot_actions_" + String(current_page) + ".json");
+	bot_action_pages.push("http://www.universalscammerlist.com/static/data/bot_actions_" + String(current_page) + ".json");
 	current_page = current_page + 1;
 }
 bot_action_pages.push(wiki_bot_action_pages[wiki_bot_action_pages.length-1].split('* ')[1] + '.json');
