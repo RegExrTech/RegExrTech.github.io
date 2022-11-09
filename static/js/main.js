@@ -43,23 +43,14 @@ function copyURL(username) {
 
 // Load in the ban list
 user_map = new Map();
-const wiki_ban_list_pages = JSON.parse(
+const ban_list_pages = JSON.parse(
   Get('https://www.reddit.com/r/UniversalScammerList/wiki/banlist.json')
 ).data.content_md.split('\n');
-// We only want to get the last page from reddit as the rest are cached
-// so just get the number of the latest page on reddit
-last_wiki_page_split = wiki_ban_list_pages[wiki_ban_list_pages.length-1].split("/");
-last_wiki_page_number = parseInt(last_wiki_page_split[last_wiki_page_split.length-1].split(')')[0]);
-// Collect all banlist pages
-bot_action_pages = [];
-current_page = 1;
-while (current_page < last_wiki_page_number) {
-	bot_action_pages.push("https://www.universalscammerlist.com/static/data/banlist_" + String(current_page) + ".json");
-	current_page = current_page + 1;
-}
-bot_action_pages.push('https://www.reddit.com/r/UniversalScammerList/wiki/banlist/' + last_wiki_page_number + '.json');
-for (const page_context of bot_action_pages) {
-  const users = JSON.parse(Get(page_context)).data.content_md.split('\n');
+for (const page_context of ban_list_pages) {
+  page_number = page_context.split(' ')[2].split(']')[0];
+  const users = JSON.parse(
+    Get('https://www.reddit.com/r/UniversalScammerList/wiki/banlist/' + page_number + '.json')
+  ).data.content_md.split('\n');
   for (const user of users) {
     const parts = user.split(' ');
     const username = parts[1].toLowerCase();
