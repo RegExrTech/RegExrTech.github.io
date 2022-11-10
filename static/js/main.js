@@ -1,3 +1,7 @@
+function CleanUsername(username) {
+  return username.trim();
+}
+
 function Get(yourUrl) {
   var Httpreq = new XMLHttpRequest();
   Httpreq.open('GET', yourUrl, false);
@@ -6,6 +10,7 @@ function Get(yourUrl) {
 }
 
 function GetBanTags(username) {
+  username = CleanUsername(username);
   const username_parts = username.split('/');
   username = username_parts[username_parts.length - 1].toLowerCase();
   const tags = user_map.get('/u/' + username);
@@ -33,6 +38,7 @@ function GetBanTags(username) {
 
 // Copy the USL URL
 function copyURL(username) {
+  username = CleanUsername(username);
   navigator.clipboard.writeText('https://www.universalscammerlist.com?username=' + username);
   document.getElementById('copyStatus').style.visibility = 'visible';
 }
