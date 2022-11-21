@@ -34,6 +34,7 @@ function GetBanTags(username) {
       ul.appendChild(li);
     }
   }
+  return username;
 }
 
 // Copy the USL URL
@@ -104,7 +105,8 @@ for (const [key, value] of urlParams.entries()) {
   urlParams.set(key.toLowerCase(), value);
 }
 if (urlParams.get('username')) {
-  GetBanTags(urlParams.get('username'));
+  const username = GetBanTags(urlParams.get('username'));
+  document.getElementById('username').value = username;
 }
 document.getElementById('databaseLoadStatus').style.visibility = 'hidden';
 document.getElementById('inputBox').style.visibility = 'visible';
