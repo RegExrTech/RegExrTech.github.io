@@ -35,6 +35,7 @@ function GetBanTags(username) {
       ul.appendChild(li);
     }
   }
+  document.getElementById('detailsButton').style.visibility = 'visible';
 }
 
 // Copy the USL URL
@@ -42,6 +43,18 @@ function copyURL(username) {
   username = CleanUsername(username);
   navigator.clipboard.writeText('https://www.universalscammerlist.com?username=' + username);
   document.getElementById('copyStatus').style.visibility = 'visible';
+}
+
+function showDetails() {
+  historyElem = document.getElementById('userHistory');
+  buttonElem = document.getElementById('detailsButton');
+  if (historyElem.style.visibility == 'visible') {
+    historyElem.style.visibility = 'hidden';
+    buttonElem.innerHTML = "Show Details";
+  } else {
+    historyElem.style.visibility = 'visible';
+    buttonElem.innerHTML = "Hide Details";
+  }
 }
 
 ///////////////////
