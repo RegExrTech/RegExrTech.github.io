@@ -1,5 +1,8 @@
 function CleanUsername(username) {
-  return username.trim();
+  username = username.trim();
+  const username_parts = username.split('/');
+  username = username_parts[username_parts.length - 1].toLowerCase();
+  return username
 }
 
 function Get(yourUrl) {
@@ -11,8 +14,6 @@ function Get(yourUrl) {
 
 function GetBanTags(username) {
   username = CleanUsername(username);
-  const username_parts = username.split('/');
-  username = username_parts[username_parts.length - 1].toLowerCase();
   const tags = user_map.get('/u/' + username);
   if (typeof tags === 'undefined') {
     text = '/u/' + username + ' is not banned';
@@ -34,7 +35,6 @@ function GetBanTags(username) {
       ul.appendChild(li);
     }
   }
-  return username;
 }
 
 // Copy the USL URL
@@ -105,7 +105,8 @@ for (const [key, value] of urlParams.entries()) {
   urlParams.set(key.toLowerCase(), value);
 }
 if (urlParams.get('username')) {
-  const username = GetBanTags(urlParams.get('username'));
+  const username = CleanUsername(urlParams.get('username'));
+  GetBanTags(username);
   document.getElementById('username').value = username;
 }
 document.getElementById('databaseLoadStatus').style.visibility = 'hidden';
