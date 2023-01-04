@@ -126,5 +126,22 @@
       changes and modify it to a format it expects. If, for any reason, you cannot get your change
       to go through, please contact RegExr for assistance.
     </p>
+    <h3>Typo Checking</h3>
+    <p>
+      Occasionally, moderators make typos when issuing bans. If you want the USL to spell-check you, 
+      please enable the 'typo_checking' feature by navigating to your sub's config page at
+      <a href="https://www.reddit.com/r/subredditname/wiki/usl_config/"
+        >https://www.reddit.com/r/subredditname/wiki/usl_config/</a
+      >
+      where <code>subredditname</code> is the name of your community. From here, you can edit the
+      <code>typo_checking</code> value from False to True. This will enable the typo checking feature.
+      <p>
+      Once the feature has been enabled, the bot will start to check for typos in ban notes. If the bot
+      identifies an unknown tag in a ban note, it will send a PM to the moderator who issued the ban
+      informing them as such. The bot will only issue bans if a known tag is present in the ban note, 
+      so if the moderator did, in fact, make a typo, then they should issue a <b>local unban</b>, then
+      reissue the ban with the properly spelled tag in the ban note.
+      </p>
+    </p>
   </body>
 </html>
