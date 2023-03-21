@@ -1,15 +1,10 @@
+"use strict";
+
 function CleanUsername(username) {
   username = username.trim();
   const username_parts = username.split('/');
   username = username_parts[username_parts.length - 1].toLowerCase();
   return username
-}
-
-function Get(yourUrl) {
-  var Httpreq = new XMLHttpRequest();
-  Httpreq.open('GET', yourUrl, false);
-  Httpreq.send(null);
-  return Httpreq.responseText;
 }
 
 function GetBanTags(username) {
@@ -63,70 +58,79 @@ function showDetails() {
 
 user_map = new Map();
 context_map = new Map();
+load_status = { actions: false, users: false };
 
-document.addEventListener('readystatechange', event => { 
-    // When window loaded ( external resources are loaded too- `css`,`src`, etc...) 
-    if (event.target.readyState === "complete") {
-      // Load in the ban list
-      const ban_list_pages = JSON.parse(
-        Get('https://www.reddit.com/r/UniversalScammerList/wiki/banlist.json')
-      ).data.content_md.split('\n');
-      for (const page_context of ban_list_pages) {
-        page_number = page_context.split(' ')[2].split(']')[0];
-        const users = JSON.parse(
-          Get('https://www.reddit.com/r/UniversalScammerList/wiki/banlist/' + page_number + '.json')
-        ).data.content_md.split('\n');
-        for (const user of users) {
-          const parts = user.split(' ');
-          const username = parts[1].toLowerCase();
-          const tags = parts.slice(2, parts.length);
-          user_map.set(username, tags);
-        }
-      }
+async function loadUsers() {
+  /* LOAD USERS */
+  const ban_list_pages = await fetchAndSplit("https://www.reddit.com/r/UniversalScammerList/wiki/banlist.json");
 
-      // Load the context list
-      const wiki_bot_action_pages = JSON.parse(
-        Get('https://www.reddit.com/r/UniversalScammerList/wiki/bot_actions.json')
-      ).data.content_md.split('\n');
-      // We only want to get the last page from reddit as the rest are cached
-      // so just get the number of the latest page on reddit
-      last_wiki_page_split = wiki_bot_action_pages[wiki_bot_action_pages.length-1].split("/");
-      last_wiki_page_number = parseInt(last_wiki_page_split[last_wiki_page_split.length-1]);
-      // Collect all bot action pages
-      bot_action_pages = [];
-      current_page = 1;
-      while (current_page < last_wiki_page_number) {
-        bot_action_pages.push("https://www.universalscammerlist.com/static/data/bot_actions_" + String(current_page) + ".json");
-        current_page = current_page + 1;
-      }
-      bot_action_pages.push(wiki_bot_action_pages[wiki_bot_action_pages.length-1].split('* ')[1] + '.json');
-      // Read data from pages
-      for (const context_page of bot_action_pages) {
-        context = JSON.parse(Get(context_page)).data.content_md.split('\n');
-        context.reverse();
-        for (const context_line of context) {
-          if (!context_line.includes('* u/')) {
-            continue;
-          }
-          const username = context_line.split(' ')[1].split('u/')[1].toLowerCase();
-          if (!context_map.get(username)) {
-            context_map.set(username, []);
-          }
-          context_map.get(username).push(context_line.split(' was ')[1]);
-        }
-      }
+  for (const page_context of ban_list_pages) {
+    page_number = page_context.split(' ')[2].split(']')[0];
+    const users = await fetchAndSplit('https://www.reddit.com/r/UniversalScammerList/wiki/banlist/' + page_number + '.json');
 
-      const queryString = window.location.search;
-      const urlParams = new URLSearchParams(queryString);
-      for (const [key, value] of urlParams.entries()) {
-        urlParams.set(key.toLowerCase(), value);
-      }
-      if (urlParams.get('username')) {
-        const username = CleanUsername(urlParams.get('username'));
-        GetBanTags(username);
-        document.getElementById('username').value = username;
-      }
-      document.getElementById('databaseLoadStatus').style.visibility = 'hidden';
-      document.getElementById('inputBox').style.visibility = 'visible';
+    for (const user of users) {
+      const parts = user.split(' ');
+      const username = parts[1].toLowerCase();
+      const tags = parts.slice(2, parts.length);
+      user_map.set(username, tags);
     }
-});
+  }
+
+  load_status.users = true;
+  console.log("Done loading users");
+}
+
+async function loadBotActions() {
+  /* LOAD BOT ACTIONS */
+  const wiki_bot_action_pages = await fetchAndSplit('https://www.reddit.com/r/UniversalScammerList/wiki/bot_actions.json');
+  // We only want to get the last page from reddit as the rest are cached
+  // so just get the number of the latest page on reddit
+  last_wiki_page_split = wiki_bot_action_pages[wiki_bot_action_pages.length - 1].split("/");
+  last_wiki_page_number = parseInt(last_wiki_page_split[last_wiki_page_split.length - 1]);
+  // Collect all bot action pages
+  bot_action_pages = [];
+  current_page = 1;
+  while (current_page < last_wiki_page_number) {
+    bot_action_pages.push("https://www.universalscammerlist.com/static/data/bot_actions_" + String(current_page) + ".json");
+    current_page++;
+  }
+  bot_action_pages.push(wiki_bot_action_pages[wiki_bot_action_pages.length - 1].split('* ')[1] + '.json');
+
+  // Read data from pages
+  for (const context_page of bot_action_pages) {
+    context = await fetchAndSplit(context_page);
+    context.reverse();
+    for (const context_line of context) {
+      if (!context_line.includes('* u/')) {
+        continue;
+      }
+      const username = context_line.split(' ')[1].split('u/')[1].toLowerCase();
+      if (!context_map.get(username)) {
+        context_map.set(username, []);
+      }
+      context_map.get(username).push(context_line.split(' was ')[1]);
+    }
+  }
+
+  load_status.actions = true;
+  console.log("Done loading bot actions");
+}
+
+function handleSearchURL() {
+  //run a search if a user has a search in their URL i.e., /?username=foobar
+  const urlParams = new URLSearchParams(window.location.search);
+  for (const [key, value] of urlParams.entries()) {
+    urlParams.set(key.toLowerCase(), value);
+  }
+  if (urlParams.get('username')) {
+    const username = CleanUsername(urlParams.get('username'));
+    GetBanTags(username);
+    document.getElementById('username').value = username;
+  }
+}
+
+Promise.all([loadUsers(), loadBotActions(), pageLoadPromise]).then(function(){
+  handleSearchURL();
+  document.getElementById('databaseLoadStatus').style.visibility = 'hidden';
+  document.getElementById('inputBox').style.visibility = 'visible';
+})
