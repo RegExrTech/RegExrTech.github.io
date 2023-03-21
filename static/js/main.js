@@ -56,16 +56,15 @@ function showDetails() {
 // ON LOAD BELOW //
 ///////////////////
 
-user_map = new Map();
-context_map = new Map();
-load_status = { actions: false, users: false };
+var user_map = new Map();
+var context_map = new Map();
 
 async function loadUsers() {
   /* LOAD USERS */
   const ban_list_pages = await fetchAndSplit("https://www.reddit.com/r/UniversalScammerList/wiki/banlist.json");
 
   for (const page_context of ban_list_pages) {
-    page_number = page_context.split(' ')[2].split(']')[0];
+    const page_number = page_context.split(' ')[2].split(']')[0];
     const users = await fetchAndSplit('https://www.reddit.com/r/UniversalScammerList/wiki/banlist/' + page_number + '.json');
 
     for (const user of users) {
@@ -76,7 +75,6 @@ async function loadUsers() {
     }
   }
 
-  load_status.users = true;
   console.log("Done loading users");
 }
 
@@ -85,11 +83,11 @@ async function loadBotActions() {
   const wiki_bot_action_pages = await fetchAndSplit('https://www.reddit.com/r/UniversalScammerList/wiki/bot_actions.json');
   // We only want to get the last page from reddit as the rest are cached
   // so just get the number of the latest page on reddit
-  last_wiki_page_split = wiki_bot_action_pages[wiki_bot_action_pages.length - 1].split("/");
-  last_wiki_page_number = parseInt(last_wiki_page_split[last_wiki_page_split.length - 1]);
+  const last_wiki_page_split = wiki_bot_action_pages[wiki_bot_action_pages.length - 1].split("/");
+  const last_wiki_page_number = parseInt(last_wiki_page_split[last_wiki_page_split.length - 1]);
   // Collect all bot action pages
-  bot_action_pages = [];
-  current_page = 1;
+  const bot_action_pages = [];
+  var current_page = 1;
   while (current_page < last_wiki_page_number) {
     bot_action_pages.push("https://www.universalscammerlist.com/static/data/bot_actions_" + String(current_page) + ".json");
     current_page++;
@@ -98,7 +96,7 @@ async function loadBotActions() {
 
   // Read data from pages
   for (const context_page of bot_action_pages) {
-    context = await fetchAndSplit(context_page);
+    var context = await fetchAndSplit(context_page);
     context.reverse();
     for (const context_line of context) {
       if (!context_line.includes('* u/')) {
@@ -112,7 +110,6 @@ async function loadBotActions() {
     }
   }
 
-  load_status.actions = true;
   console.log("Done loading bot actions");
 }
 
@@ -131,6 +128,6 @@ function handleSearchURL() {
 
 Promise.all([loadUsers(), loadBotActions(), pageLoadPromise]).then(function(){
   handleSearchURL();
-  document.getElementById('databaseLoadStatus').style.visibility = 'hidden';
+  document.getElementById('loadingMessage').style.visibility = 'hidden';
   document.getElementById('inputBox').style.visibility = 'visible';
 })
