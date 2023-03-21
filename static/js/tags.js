@@ -20,6 +20,6 @@ async function loadTags() {
 
 Promise.all([loadTags(), pageLoadPromise]).then(function () {
   taglist.style.visibility = 'visible';
-  document.getElementById('loadingmessage').style.visibility = 'hidden';  
+  document.getElementById('loadingMessage').style.visibility = 'hidden';  
 })
 

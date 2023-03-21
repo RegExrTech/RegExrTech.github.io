@@ -24,7 +24,7 @@ async function loadSubreddits() {
 
 Promise.all([loadSubreddits(), pageLoadPromise]).then(function () {
   sublist.style.visibility = 'visible';
-  document.getElementById('loadingmessage').style.visibility = 'hidden';
+  document.getElementById('loadingMessage').style.visibility = 'hidden';
 })
 
 
