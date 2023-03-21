@@ -1,10 +1,10 @@
-"use strict";
+'use strict';
 
 function CleanUsername(username) {
   username = username.trim();
   const username_parts = username.split('/');
   username = username_parts[username_parts.length - 1].toLowerCase();
-  return username
+  return username;
 }
 
 function GetBanTags(username) {
@@ -12,14 +12,16 @@ function GetBanTags(username) {
   const tags = user_map.get('/u/' + username);
   if (typeof tags === 'undefined') {
     document.getElementById('userStatus').innerHTML = '/u/' + username + ' is not banned';
-    document.getElementById('userStatus').style.color = 'green';
+    document.getElementById('userStatusWrapper').classList.remove('banned');
   } else {
-    document.getElementById('userStatus').innerHTML = '/u/' + username + ' is banned with the following tags: ' + tags.join(' ');
-    document.getElementById('userStatus').style.color = 'red';
+    document.getElementById('userStatus').innerHTML =
+      '/u/' + username + ' is banned with the following tags: ' + tags.join(' ');
+    document.getElementById('userStatusWrapper').classList.add('banned');
   }
 
-  document.getElementById('userStatusAndButton').style.visibility = 'visible';
-  document.getElementById('copyStatus').style.visibility = 'hidden';
+  show('userStatusWrapper');
+  hide('copyStatus');
+
   let ul = document.getElementById('userHistory');
   ul.innerHTML = '';
   const context_lines = context_map.get(username);
@@ -30,29 +32,17 @@ function GetBanTags(username) {
       ul.appendChild(li);
     }
   }
-  document.getElementById('detailsButton').style.visibility = 'visible';
 
+  document.title = 'UniversalScammerList - /u/' + username;
   //also push to history
-  history.pushState({}, "", '/?username=' + username);
+  history.pushState({}, '', '/?username=' + username);
 }
 
 // Copy the USL URL
 function copyURL(username) {
   username = CleanUsername(username);
   navigator.clipboard.writeText('https://www.universalscammerlist.com?username=' + username);
-  document.getElementById('copyStatus').style.visibility = 'visible';
-}
-
-function showDetails() {
-  historyElem = document.getElementById('userHistory');
-  buttonElem = document.getElementById('detailsButton');
-  if (historyElem.style.visibility == 'visible') {
-    historyElem.style.visibility = 'hidden';
-    buttonElem.innerHTML = "Show Details";
-  } else {
-    historyElem.style.visibility = 'visible';
-    buttonElem.innerHTML = "Hide Details";
-  }
+  show('copyStatus');
 }
 
 ///////////////////
@@ -63,26 +53,34 @@ var user_map = new Map();
 var context_map = new Map();
 var loadStatus = {
   userPagesLoaded: 0,
-  userPagesNeeded: "?",
+  userPagesNeeded: '?',
   botActionPagesLoaded: 0,
-  botActionPagesNeeded: "?",
-}
+  botActionPagesNeeded: '?',
+};
 
 function updateLoadText() {
-  document.getElementById('loadingMessageDetails').innerHTML = ((loadStatus.userPagesLoaded/loadStatus.userPagesNeeded)*65 + (loadStatus.botActionPagesLoaded/loadStatus.botActionPagesNeeded)*35).toFixed(0)+"%";
+  document.getElementById('loadingMessageDetails').innerHTML =
+    (
+      (loadStatus.userPagesLoaded / loadStatus.userPagesNeeded) * 65 +
+      (loadStatus.botActionPagesLoaded / loadStatus.botActionPagesNeeded) * 35
+    ).toFixed(0) + '%';
   //35 65 weighting split is arbitrary
 }
 
 async function loadUsers() {
   /* LOAD USERS */
-  const ban_list_pages = await fetchAndSplit("https://www.reddit.com/r/UniversalScammerList/wiki/banlist.json");
+  const ban_list_pages = await fetchAndSplit(
+    'https://www.reddit.com/r/UniversalScammerList/wiki/banlist.json'
+  );
 
   loadStatus.userPagesNeeded = ban_list_pages.length;
   updateLoadText();
 
   for (const page_context of ban_list_pages) {
     const page_number = page_context.split(' ')[2].split(']')[0];
-    const users = await fetchAndSplit('https://www.reddit.com/r/UniversalScammerList/wiki/banlist/' + page_number + '.json');
+    const users = await fetchAndSplit(
+      'https://www.reddit.com/r/UniversalScammerList/wiki/banlist/' + page_number + '.json'
+    );
 
     loadStatus.userPagesLoaded++;
     updateLoadText();
@@ -95,15 +93,17 @@ async function loadUsers() {
     }
   }
 
-  console.log("Done loading users");
+  console.log('Done loading users');
 }
 
 async function loadBotActions() {
   /* LOAD BOT ACTIONS */
-  const wiki_bot_action_pages = await fetchAndSplit('https://www.reddit.com/r/UniversalScammerList/wiki/bot_actions.json');
+  const wiki_bot_action_pages = await fetchAndSplit(
+    'https://www.reddit.com/r/UniversalScammerList/wiki/bot_actions.json'
+  );
   // We only want to get the last page from reddit as the rest are cached
   // so just get the number of the latest page on reddit
-  const last_wiki_page_split = wiki_bot_action_pages[wiki_bot_action_pages.length - 1].split("/");
+  const last_wiki_page_split = wiki_bot_action_pages[wiki_bot_action_pages.length - 1].split('/');
   const last_wiki_page_number = parseInt(last_wiki_page_split[last_wiki_page_split.length - 1]);
 
   loadStatus.botActionPagesNeeded = last_wiki_page_number;
@@ -113,10 +113,16 @@ async function loadBotActions() {
   const bot_action_pages = [];
   var current_page = 1;
   while (current_page < last_wiki_page_number) {
-    bot_action_pages.push("https://www.universalscammerlist.com/static/data/bot_actions_" + String(current_page) + ".json");
+    bot_action_pages.push(
+      'https://www.universalscammerlist.com/static/data/bot_actions_' +
+        String(current_page) +
+        '.json'
+    );
     current_page++;
   }
-  bot_action_pages.push(wiki_bot_action_pages[wiki_bot_action_pages.length - 1].split('* ')[1] + '.json');
+  bot_action_pages.push(
+    wiki_bot_action_pages[wiki_bot_action_pages.length - 1].split('* ')[1] + '.json'
+  );
 
   // Read data from pages
   for (const context_page of bot_action_pages) {
@@ -138,7 +144,7 @@ async function loadBotActions() {
     }
   }
 
-  console.log("Done loading bot actions");
+  console.log('Done loading bot actions');
 }
 
 function handleSearchURL() {
@@ -154,8 +160,7 @@ function handleSearchURL() {
   }
 }
 
-Promise.all([loadUsers(), loadBotActions(), pageLoadPromise]).then(function(){
+Promise.all([loadUsers(), loadBotActions(), pageLoadPromise]).then(function () {
   handleSearchURL();
-  document.getElementById('loadingMessage').style.visibility = 'hidden';
-  document.getElementById('inputBox').style.visibility = 'visible';
-})
+  hideLoadingMessageAndShowUI();
+});

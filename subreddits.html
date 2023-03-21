@@ -2,7 +2,6 @@
 <html lang="en">
   <head>
     <title>Participants</title>
-    <link rel="stylesheet" href="static/css/header.css" />
     <meta charset="utf-8" />
     <meta
       content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover"
@@ -14,20 +13,22 @@
       content="The system supporting a collection of subreddits who agree to work together to limit the impact that those who have scammed"
       property="og:description" />
     <meta content="https://RegExrTech.github.io/subreddits" property="og:url" />
+    <link rel="stylesheet" href="static/css/style.css" />
   </head>
 
   <body>
     <div class="header">
+      <h1>USL</h1>
       <a href="/index">Search</a>
       <a href="/start">Getting Started</a>
-      <a href="/about">How To</a>
-      <a class="active" href="/subreddits">Participants</a>
+      <a class="active" href="/about">How To</a>
+      <a href="/subreddits">Participants</a>
       <a href="/tags">Tags</a>
       <a href="https://kofi.regexr.tech/">Donate</a>
     </div>
-    <h2 style="font-size: 36px">List of Participating Subreddits</h2>
+    <h2>List of Participating Subreddits</h2>
     <p id="loadingMessage">Loading list...</p>
-    <ul id="sublist" style="visibility: hidden"></ul>
+    <ul id="sublist" class="awaiting-load"></ul>
 
     <script src="static/js/shared.js"></script>
     <script src="static/js/subreddits.js"></script>

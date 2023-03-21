@@ -1,11 +1,12 @@
-"use strict";
+'use strict';
 
 async function loadTags() {
   taglist = document.getElementById('taglist');
-  const tags = await fetchAndSplit('https://www.reddit.com/r/UniversalScammerList/wiki/public_tags.json');
+  const tags = await fetchAndSplit(
+    'https://www.reddit.com/r/UniversalScammerList/wiki/public_tags.json'
+  );
   for (const tag of tags) {
-
-    if (tag == "") {
+    if (tag == '') {
       //due to formatting issues, list has empty items that need to be skipped.
       continue;
     }
@@ -19,7 +20,5 @@ async function loadTags() {
 }
 
 Promise.all([loadTags(), pageLoadPromise]).then(function () {
-  taglist.style.visibility = 'visible';
-  document.getElementById('loadingMessage').style.visibility = 'hidden';  
-})
-
+  hideLoadingMessageAndShowUI();
+});

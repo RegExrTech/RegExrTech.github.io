@@ -13,10 +13,12 @@
       content="The system supporting a collection of subreddits who agree to work together to limit the impact that those who have scammed"
       property="og:description" />
     <meta content="https://RegExrTech.github.io/about" property="og:url" />
-    <link rel="stylesheet" href="static/css/header.css" />
+    <link rel="stylesheet" href="static/css/style.css" />
   </head>
+
   <body>
     <div class="header">
+      <h1>USL</h1>
       <a href="/index">Search</a>
       <a href="/start">Getting Started</a>
       <a class="active" href="/about">How To</a>
@@ -24,6 +26,7 @@
       <a href="/tags">Tags</a>
       <a href="https://kofi.regexr.tech/">Donate</a>
     </div>
+
     <h3>About The Universal Scammer List</h3>
     <p>
       The Universal Scammer List is the system supporting a collection of subreddits who agree to
@@ -33,9 +36,8 @@
     <p>
       This document assumes that you are a moderator of a subreddit participating in the Universal
       Scammer List (USL). If you are looking to see if a user is banned, please check
-      <a href="/index.html">the main search page</a> instead. If you are interested in having your
-      subreddit join the USL, please check
-      <a href="/start.html"> the Getting Started page</a> instead.
+      <a href="/">the main search page</a> instead. If you are interested in having your subreddit
+      join the USL, please check <a href="/start.html"> the Getting Started page</a> instead.
     </p>
     <h3>Issuing a Ban</h3>
     <p>
@@ -128,20 +130,21 @@
     </p>
     <h3>Typo Checking</h3>
     <p>
-      Occasionally, moderators make typos when issuing bans. If you want the USL to spell-check you, 
+      Occasionally, moderators make typos when issuing bans. If you want the USL to spell-check you,
       please enable the 'typo_checking' feature by navigating to your sub's config page at
       <a href="https://www.reddit.com/r/subredditname/wiki/usl_config/"
         >https://www.reddit.com/r/subredditname/wiki/usl_config/</a
       >
       where <code>subredditname</code> is the name of your community. From here, you can edit the
-      <code>typo_checking</code> value from False to True. This will enable the typo checking feature.
-      <p>
-      Once the feature has been enabled, the bot will start to check for typos in ban notes. If the bot
-      identifies an unknown tag in a ban note, it will send a PM to the moderator who issued the ban
-      informing them as such. The bot will only issue bans if a known tag is present in the ban note. 
-      So if the moderator did, in fact, make a typo, they should issue a <b>local unban</b>, then
-      reissue the ban with the properly spelled tag in the ban note.
-      </p>
+      <code>typo_checking</code> value from False to True. This will enable the typo checking
+      feature.
+    </p>
+    <p>
+      Once the feature has been enabled, the bot will start to check for typos in ban notes. If the
+      bot identifies an unknown tag in a ban note, it will send a PM to the moderator who issued the
+      ban informing them as such. The bot will only issue bans if a known tag is present in the ban
+      note. So if the moderator did, in fact, make a typo, they should issue a <b>local unban</b>,
+      then reissue the ban with the properly spelled tag in the ban note.
     </p>
   </body>
 </html>
