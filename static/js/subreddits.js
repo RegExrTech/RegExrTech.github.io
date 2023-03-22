@@ -1,7 +1,7 @@
 'use strict';
 
 async function loadSubreddits() {
-  sublist = document.getElementById('sublist');
+  let sublist = document.getElementById('sublist');
   const subreddits = await fetchAndSplit(
     'https://www.reddit.com/r/UniversalScammerList/wiki/participating_subreddits.json'
   );

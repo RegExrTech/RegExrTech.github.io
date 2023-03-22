@@ -1,7 +1,7 @@
 'use strict';
 
 async function loadTags() {
-  taglist = document.getElementById('taglist');
+  let taglist = document.getElementById('taglist');
   const tags = await fetchAndSplit(
     'https://www.reddit.com/r/UniversalScammerList/wiki/public_tags.json'
   );
