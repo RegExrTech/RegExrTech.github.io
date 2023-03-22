@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Universal Scammer List - {{title}}</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:title" content="Universal Scammer List - {{title}}">
+    <meta property="og:type" content="website">
+    
+    {{#ogurl}}
+    <meta property="og:url" content="https://www.universalscammerlist.com/{{ogurl}}">
+    {{/ogurl}}
+
+    <link rel="icon" href="/favicon.png" sizes="any">
+    <!-- <link rel="icon" href="/icon.svg" type="image/svg+xml"> TODO -->
+    <!-- <link rel="apple-touch-icon" href="icon.png"> TODO -->
+
+    <meta
+      content="The Universal Scammer List helps Reddit users and subreddits avoid scammers, trolls, and more."
+      property="og:description" />
+
+    <link rel="stylesheet" href="static/css/style.css">
+
+    <meta name="theme-color" content="#fafafa">
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>USL</h1>
+        <a href="/index">Search</a>
+        <a href="/start">Getting Started</a>
+        <a href="/about">How To</a>
+        <a href="/subreddits">Participants</a>
+        <a href="/tags">Tags</a>
+        <a href="https://kofi.regexr.tech/">Donate</a>
+    </div>
+
+    {{{pageContent}}}
+
+    {{#additionalScript}}
+    <script src="static/js/shared.js"></script>
+    <script src="static/js/{{additionalScript}}"></script>
+    {{/additionalScript}}
+</body>
+
+</html>

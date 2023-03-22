@@ -1,33 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Participants</title>
-    <link rel="stylesheet" href="static/css/header.css" />
     <meta charset="utf-8" />
+    <title>Universal Scammer List - Participating Subreddits</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta property="og:title" content="Universal Scammer List - Participating Subreddits" />
+    <meta property="og:type" content="website" />
+
+    <meta property="og:url" content="https://www.universalscammerlist.com/subreddits" />
+
+    <link rel="icon" href="/favicon.png" sizes="any" />
+    <!-- <link rel="icon" href="/icon.svg" type="image/svg+xml"> TODO -->
+    <!-- <link rel="apple-touch-icon" href="icon.png"> TODO -->
+
     <meta
-      content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover"
-      name="viewport" />
-    <meta content="UniversalScammerList" property="og:site_name" />
-    <meta content="website" propety="og:type" />
-    <meta content="View the subreddits in the Universal Scammer List" property="og:title" />
-    <meta
-      content="The system supporting a collection of subreddits who agree to work together to limit the impact that those who have scammed"
+      content="The Universal Scammer List helps Reddit users and subreddits avoid scammers, trolls, and more."
       property="og:description" />
-    <meta content="https://RegExrTech.github.io/subreddits" property="og:url" />
+
+    <link rel="stylesheet" href="static/css/style.css" />
+
+    <meta name="theme-color" content="#fafafa" />
   </head>
 
   <body>
     <div class="header">
+      <h1>USL</h1>
       <a href="/index">Search</a>
       <a href="/start">Getting Started</a>
       <a href="/about">How To</a>
-      <a class="active" href="/subreddits">Participants</a>
+      <a href="/subreddits">Participants</a>
       <a href="/tags">Tags</a>
       <a href="https://kofi.regexr.tech/">Donate</a>
     </div>
-    <h2 style="font-size: 36px">List of Participating Subreddits</h2>
-    <p id="loadingmessage">Loading list...</p>
-    <ul id="sublist" style="visibility: hidden"></ul>
+
+    <h2>List of Participating Subreddits</h2>
+    <p id="loadingMessage">Loading list...</p>
+    <ul id="sublist" class="awaiting-load"></ul>
+
+    <script src="static/js/shared.js"></script>
     <script src="static/js/subreddits.js"></script>
   </body>
 </html>

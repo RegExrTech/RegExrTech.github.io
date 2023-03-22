@@ -1,28 +1,28 @@
-function Get(yourUrl) {
-  var Httpreq = new XMLHttpRequest();
-  Httpreq.open('GET', yourUrl, false);
-  Httpreq.send(null);
-  return Httpreq.responseText;
+'use strict';
+
+async function loadSubreddits() {
+  sublist = document.getElementById('sublist');
+  const subreddits = await fetchAndSplit(
+    'https://www.reddit.com/r/UniversalScammerList/wiki/participating_subreddits.json'
+  );
+  for (const subreddit of subreddits) {
+    if (subreddit == '') {
+      //due to formatting issues, list has empty items that need to be skipped.
+      continue;
+    }
+
+    const content = subreddit.split('* ')[1].split('\n')[0];
+    var linkText = document.createTextNode(content);
+    var a = document.createElement('a');
+    a.appendChild(linkText);
+    a.title = content;
+    a.href = 'https://www.reddit.com/' + content;
+    var li = document.createElement('li');
+    li.appendChild(a);
+    sublist.appendChild(li);
+  }
 }
 
-///////////////////
-// ON LOAD BELOW //
-///////////////////
-sublist = document.getElementById('sublist');
-const subreddits = JSON.parse(
-  Get('https://www.reddit.com/r/UniversalScammerList/wiki/participating_subreddits.json')
-).data.content_md.split('\n\n');
-for (const subreddit of subreddits) {
-  const content = subreddit.split('* ')[1].split('\n')[0];
-  var linkText = document.createTextNode(content);
-  var a = document.createElement('a');
-  a.appendChild(linkText);
-  a.title = content;
-  a.href = 'https://www.reddit.com/' + content;
-  var li = document.createElement('li');
-  li.appendChild(a);
-  sublist.appendChild(li);
-}
-
-sublist.style.visibility = 'visible';
-document.getElementById('loadingmessage').style.visibility = 'hidden';
+Promise.all([loadSubreddits(), pageLoadPromise]).then(function () {
+  hideLoadingMessageAndShowUI();
+});

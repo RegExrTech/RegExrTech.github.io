@@ -1,0 +1,139 @@
+* {
+  font-family: system-ui, sans-serif;
+}
+
+body {
+  font-size: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: #263238;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #78909c;
+}
+
+input {
+  border: 3px solid #263238;
+  background: none;
+}
+
+input:hover {
+  border-color: #1976d2;
+}
+
+input:active {
+  border-color: #2196f3;
+  outline: none;
+}
+
+input[type='submit'],
+button {
+  background-color: #263238;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+input[type='submit']:hover,
+button:hover {
+  background: #1976d2;
+}
+
+input[type='submit']:active,
+button:active {
+  background: #2196f3;
+}
+
+.awaiting-load,
+.hidden {
+  display: none !important;
+}
+
+#loadingMessage {
+  text-align: center;
+  padding: 50px;
+  background: #eceff1;
+}
+
+/************** HEADER **************/
+
+.header {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #b0bec5;
+}
+
+.header h1 {
+  text-decoration: none;
+  margin: 0;
+}
+
+.header a {
+  color: #607d8b;
+  text-decoration: none;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.header a:hover {
+  text-decoration: underline;
+}
+
+.headerCTA {
+}
+
+/************** SEARCH PAGE **************/
+
+.titleCTA {
+  text-align: center;
+}
+
+#inputBox {
+  height: 60px;
+  display: flex;
+  max-width: 800px;
+  margin: 40px auto;
+  gap: 10px;
+}
+
+#inputBox input {
+  flex-grow: 1;
+  font-size: 20px;
+  border-radius: 10px;
+}
+
+#inputBox #username {
+  font-weight: 600;
+  padding: 0 25px;
+}
+
+/************** SEARCH PAGE USER DISPLAY **************/
+
+#userStatusWrapper {
+  border-radius: 10px;
+  padding: 40px;
+  background: #e3f2fd;
+}
+
+#userStatusWrapper.banned {
+  background: #ffebee;
+}
+
+.userStatusTitleRow {
+  display: flex;
+  flex-direction: row;
+}
+
+#userStatusWrapper h3 {
+  color: #1976d2;
+  margin: 0;
+  flex-grow: 1;
+}
+
+#userStatusWrapper.banned h3 {
+  color: #d32f2f;
+}
