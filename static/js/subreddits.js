@@ -17,6 +17,7 @@ async function loadSubreddits() {
     a.appendChild(linkText);
     a.title = content;
     a.href = 'https://www.reddit.com/' + content;
+    a.target = '_blank';
     var li = document.createElement('li');
     li.appendChild(a);
     sublist.appendChild(li);

@@ -9,7 +9,7 @@
 
     <meta property="og:title" content="Universal Scammer List - {{title}}">
     <meta property="og:type" content="website">
-    
+
     {{#ogurl}}
     <meta property="og:url" content="https://www.universalscammerlist.com/{{ogurl}}">
     {{/ogurl}}
@@ -18,9 +18,8 @@
     <!-- <link rel="icon" href="/icon.svg" type="image/svg+xml"> TODO -->
     <!-- <link rel="apple-touch-icon" href="icon.png"> TODO -->
 
-    <meta
-      content="The Universal Scammer List helps Reddit users and subreddits avoid scammers, trolls, and more."
-      property="og:description" />
+    <meta content="The Universal Scammer List helps Reddit users and subreddits avoid scammers, trolls, and more."
+        property="og:description" />
 
     <link rel="stylesheet" href="static/css/style.css">
 
@@ -30,19 +29,30 @@
 <body>
 
     <div class="header">
-        <h1>USL</h1>
-        <a href="/index">Search</a>
-        <a href="/start">Getting Started</a>
-        <a href="/about">How To</a>
-        <a href="/subreddits">Participants</a>
-        <a href="/tags">Tags</a>
-        <a href="https://kofi.regexr.tech/">Donate</a>
+        <h1><a href="/">The USL</a></h1>
+
+        <a id="hamburger" href="#">
+            <svg width="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <title>menu</title>
+                <path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
+            </svg>
+        </a>
+
+        <div id="header-links">
+            <a href="/">Search</a>
+            <a href="/start">Getting Started</a>
+            <a href="/about">How To</a>
+            <a href="/subreddits">Participants</a>
+            <a href="/tags">Tags</a>
+            <a href="https://kofi.regexr.tech/" target="_blank">Donate</a>
+        </div>
+
     </div>
 
     {{{pageContent}}}
 
-    {{#additionalScript}}
     <script src="static/js/shared.js"></script>
+    {{#additionalScript}}
     <script src="static/js/{{additionalScript}}"></script>
     {{/additionalScript}}
 </body>

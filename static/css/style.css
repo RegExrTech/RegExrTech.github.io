@@ -1,5 +1,6 @@
 * {
   font-family: system-ui, sans-serif;
+  box-sizing: border-box;
 }
 
 body {
@@ -7,6 +8,18 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   color: #263238;
+}
+
+@media only screen and (max-width: 1200px) {
+  body {
+    padding: 0 10px;
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  body {
+    font-size: 16px;
+  }
 }
 
 hr {
@@ -67,9 +80,19 @@ button:active {
   border-bottom: 1px solid #b0bec5;
 }
 
+#header-links {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
 .header h1 {
   text-decoration: none;
   margin: 0;
+}
+
+.header h1 a {
+  color: inherit;
 }
 
 .header a {
@@ -81,6 +104,50 @@ button:active {
 
 .header a:hover {
   text-decoration: underline;
+}
+
+#hamburger {
+  display: none;
+}
+
+@media only screen and (max-width: 850px) {
+  .header {
+    height: 60px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  #hamburger {
+    display: block;
+    text-align: right;
+    line-height: 0; /* fix for extra space around image */
+  }
+
+  #header-links {
+    display: none;
+  }
+
+  #header-links.expanded {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 60px;
+    background: #263238;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 30px;
+    box-shadow: 0 10px 16px 0px rgba(0, 0, 0, 0.2);
+  }
+
+  #header-links a {
+    display: block;
+    padding: 10px;
+    font-weight: 600;
+    font-size: 19.2px;
+    text-align: right;
+    color: #fff;
+  }
 }
 
 .headerCTA {
@@ -102,12 +169,16 @@ button:active {
 
 #inputBox input {
   flex-grow: 1;
+  flex-shrink: 1;
   font-size: 20px;
   border-radius: 10px;
 }
 
 #inputBox #username {
   font-weight: 600;
+  width: 150px;
+  /*not actual width since item will flexbox grow*/
+  flex-grow: 2;
   padding: 0 25px;
 }
 
