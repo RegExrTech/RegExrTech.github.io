@@ -26,13 +26,23 @@
 
   <body>
     <div class="header">
-      <h1>USL</h1>
-      <a href="/index">Search</a>
-      <a href="/start">Getting Started</a>
-      <a href="/about">How To</a>
-      <a href="/subreddits">Participants</a>
-      <a href="/tags">Tags</a>
-      <a href="https://kofi.regexr.tech/">Donate</a>
+      <h1><a href="/">The USL</a></h1>
+
+      <a id="hamburger" href="#">
+        <svg width="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <title>menu</title>
+          <path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
+        </svg>
+      </a>
+
+      <div id="header-links">
+        <a href="/">Search</a>
+        <a href="/start">Getting Started</a>
+        <a href="/about">How To</a>
+        <a href="/subreddits">Participants</a>
+        <a href="/tags">Tags</a>
+        <a href="https://kofi.regexr.tech/" target="_blank">Donate</a>
+      </div>
     </div>
 
     <h3>About The Universal Scammer List</h3>
@@ -154,5 +164,7 @@
       note. So if the moderator did, in fact, make a typo, they should issue a <b>local unban</b>,
       then reissue the ban with the properly spelled tag in the ban note.
     </p>
+
+    <script src="static/js/shared.js"></script>
   </body>
 </html>

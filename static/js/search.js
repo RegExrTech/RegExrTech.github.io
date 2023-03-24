@@ -20,7 +20,7 @@ function GetBanTags(username) {
   }
 
   show('userStatusWrapper');
-  hide('copyStatus');
+  document.getElementById('copyURL').innerHTML = 'Copy URL';
 
   let ul = document.getElementById('userHistory');
   ul.innerHTML = '';
@@ -42,7 +42,7 @@ function GetBanTags(username) {
 function copyURL(username) {
   username = CleanUsername(username);
   navigator.clipboard.writeText('https://www.universalscammerlist.com?username=' + username);
-  show('copyStatus');
+  document.getElementById('copyURL').innerHTML = 'Copied!';
 }
 
 ///////////////////

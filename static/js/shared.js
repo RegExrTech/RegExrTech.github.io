@@ -16,7 +16,9 @@ function fetchAndSplit(url) {
 
 const pageLoadPromise = new Promise((resolve, reject) => {
   //this is a dumb promise that just gives the page load status.
-  window.onload = resolve;
+  window.addEventListener('load', (event) => {
+    resolve();
+  });
 });
 
 function hideLoadingMessageAndShowUI() {
@@ -33,3 +35,17 @@ function hide(id) {
 function show(id) {
   document.getElementById(id).classList.remove('hidden');
 }
+
+//setup hamburger
+window.addEventListener('load', function (event) {
+  document.getElementById('hamburger').addEventListener('click', function (event) {
+    const headerLinks = document.getElementById('header-links');
+    if (headerLinks.classList.contains('expanded')) {
+      headerLinks.classList.remove('expanded');
+    } else {
+      headerLinks.classList.add('expanded');
+    }
+    event.preventDefault;
+    return false;
+  });
+});
