@@ -71,8 +71,10 @@
     </p>
     <h3>Removing a Ban</h3>
     <p>
-      If you wish to remove a ban, please send a message to your subreddit-specific USL bot with the
-      following text in the body:
+      If you wish to remove a ban, you can simply unban the user. Any tags assigned by your subreddit
+      will automatically be removed from the USL. If you wish to have finer-grained control over which
+      tags are removed, please send a message to your subreddit-specific USL bot with the following
+      text in the body:
     </p>
     <p><code>$unban u/test_account #usltag</code></p>
     <p>
@@ -92,6 +94,12 @@
     <p>
       Please note that ONLY moderators of the subreddit from which the ban originated can remove a
       USL ban in this way.
+    </p>
+    <p>
+      If you wish to ONLY allow unbans to happen via DM to the bot, set the 
+      <code>local_unban_is_usl_unban</code> value in your subreddit config to <code>false</code>.
+      This will disable the feature and enforce that only unbans issued via DM to the bot will be
+      accepted.
     </p>
     <h3>Modifying a Ban</h3>
     <p>
