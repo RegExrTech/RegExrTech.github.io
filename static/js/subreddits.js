@@ -1,14 +1,19 @@
 'use strict';
 
 async function loadSubreddits() {
-  let sublist = document.getElementById('sublist');
+  let writeSublist = document.getElementById('writeSublist');
+  let readSublist = document.getElementById('readSublist');
   const subreddits = await fetchAndSplit(
     'https://www.reddit.com/r/UniversalScammerList/wiki/participating_subreddits.json'
   );
+  let inFirstList = false;
   for (const subreddit of subreddits) {
     if (subreddit == '') {
-      //due to formatting issues, list has empty items that need to be skipped.
+      // Ignore spacing lines
       continue;
+    }
+    if (subreddit.contains('===')) {
+      inFirstList = !inFirstList;
     }
 
     const content = subreddit.split('* ')[1].split('\n')[0];
@@ -20,7 +25,11 @@ async function loadSubreddits() {
     a.target = '_blank';
     var li = document.createElement('li');
     li.appendChild(a);
-    sublist.appendChild(li);
+    if (inFirstList) {
+      write_sublists.appendChild(li); 
+    } else {
+      read_sublists.appendChild(li);
+    }
   }
 }
 
