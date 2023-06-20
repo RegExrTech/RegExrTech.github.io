@@ -27,9 +27,9 @@ async function loadSubreddits() {
     var li = document.createElement('li');
     li.appendChild(a);
     if (inFirstList) {
-      writeSublists.appendChild(li); 
+      writeSublist.appendChild(li); 
     } else {
-      readSublists.appendChild(li);
+      readSublist.appendChild(li);
     }
   }
 }
