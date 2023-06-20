@@ -23,8 +23,8 @@ const pageLoadPromise = new Promise((resolve, reject) => {
 
 function hideLoadingMessageAndShowUI() {
   document.getElementById('loadingMessage').classList.add('hidden');
-  for (const el of document.getElementsByClassName('awaiting-load')) {
-    el.classList.remove('awaiting-load');
+  while (document.getElementsByClassName('awaiting-load').length != 0) {
+    document.getElementsByClassName('awaiting-load')[0].classList.remove('awaiting-load');
   }
 }
 
