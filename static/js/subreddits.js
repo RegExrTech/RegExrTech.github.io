@@ -12,7 +12,7 @@ async function loadSubreddits() {
       // Ignore spacing lines
       continue;
     }
-    if (subreddit.contains('===')) {
+    if (subreddit.includes('===')) {
       inFirstList = !inFirstList;
     }
 
