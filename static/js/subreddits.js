@@ -14,6 +14,7 @@ async function loadSubreddits() {
     }
     if (subreddit.includes('===')) {
       inFirstList = !inFirstList;
+      continue;
     }
 
     const content = subreddit.split('* ')[1].split('\n')[0];
@@ -26,9 +27,9 @@ async function loadSubreddits() {
     var li = document.createElement('li');
     li.appendChild(a);
     if (inFirstList) {
-      write_sublists.appendChild(li); 
+      writeSublists.appendChild(li); 
     } else {
-      read_sublists.appendChild(li);
+      readSublists.appendChild(li);
     }
   }
 }
