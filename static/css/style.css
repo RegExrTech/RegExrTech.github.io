@@ -150,7 +150,12 @@ button:active {
   }
 }
 
-.headerCTA {
+.warningMessage {
+  color: #B71C1C;
+  background: #FFCDD2;
+  border: 2px solid #B71C1C;
+  padding: 0 20px;
+  margin: 30px 0;
 }
 
 /************** SEARCH PAGE **************/
