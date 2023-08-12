@@ -42,7 +42,17 @@
         <a href="https://kofi.regexr.tech/" target="_blank">Donate</a>
       </div>
     </div>
-
+    <div class="banner-warning">
+      <p>
+        Reddit made some unannounced changes that broke our search functionality. Searching for
+        users on this site <em>does not work at this time</em>, but we'll be getting it back online
+        ASAP.
+      </p>
+      <p>
+        The USL Bots are still working fine, and are still banning scammers. It is only this webpage
+        that has stopped working.
+      </p>
+    </div>
     <h2 class="titleCTA">Search for Reddit scammers on the Universal Scammer List:</h2>
 
     <div id="loadingMessage">Loading Database... <span id="loadingMessageDetails"></span></div>
@@ -55,7 +65,8 @@
     <div id="userStatusWrapper" class="hidden">
       <div class="userStatusTitleRow">
         <h3 id="userStatus"></h3>
-        <button id="copyURL" onclick="copyURL(username.value)">Copy URL</button>
+        <button onclick="copyURL(username.value)">Copy URL</button>
+        <div id="copyStatus">Copied!</div>
       </div>
 
       <hr />

@@ -120,7 +120,8 @@ button:active {
   #hamburger {
     display: block;
     text-align: right;
-    line-height: 0; /* fix for extra space around image */
+    line-height: 0;
+    /* fix for extra space around image */
   }
 
   #header-links {
@@ -150,7 +151,15 @@ button:active {
   }
 }
 
-.headerCTA {
+/************** WARNING BANNER **************/
+
+.banner-warning {
+  color: #C82424;
+  background: #F2DCDC;
+  border: 1px solid #9B1717;
+  padding: 0 30px;
+  margin: 20px 0;
+  font-weight: bold;
 }
 
 /************** SEARCH PAGE **************/
