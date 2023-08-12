@@ -44,20 +44,13 @@
         <a href="https://kofi.regexr.tech/" target="_blank">Donate</a>
       </div>
     </div>
-    <div class="banner-warning">
-      <p>
-        Reddit made some unannounced changes that broke our search functionality. Searching for
-        users on this site <em>does not work at this time</em>, but we'll be getting it back online
-        ASAP.
-      </p>
-      <p>
-        The USL Bots are still working fine, and are still banning scammers. It is only this webpage
-        that has stopped working.
-      </p>
-    </div>
+
     <h2>List of Participating Subreddits</h2>
     <p id="loadingMessage">Loading list...</p>
-    <ul id="sublist" class="awaiting-load"></ul>
+    <h3 class="awaiting-load">Full Members</h3>
+    <ul id="writeSublist" class="awaiting-load"></ul>
+    <h3 class="awaiting-load">Read-Only Members</h3>
+    <ul id="readSublist" class="awaiting-load"></ul>
 
     <script src="static/js/shared.js"></script>
     <script src="static/js/subreddits.js"></script>
