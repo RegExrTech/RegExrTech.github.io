@@ -70,7 +70,7 @@ function updateLoadText() {
 async function loadUsers() {
   /* LOAD USERS */
   const ban_list_pages = await fetchAndSplit(
-    'https://www.reddit.com/r/UniversalScammerList/wiki/banlist.json'
+    'https://api.reddit.com/r/UniversalScammerList/wiki/banlist.json'
   );
 
   loadStatus.userPagesNeeded = ban_list_pages.length;
@@ -79,7 +79,7 @@ async function loadUsers() {
   for (const page_context of ban_list_pages) {
     const page_number = page_context.split(' ')[2].split(']')[0];
     const users = await fetchAndSplit(
-      'https://www.reddit.com/r/UniversalScammerList/wiki/banlist/' + page_number + '.json'
+      'https://api.reddit.com/r/UniversalScammerList/wiki/banlist/' + page_number + '.json'
     );
 
     loadStatus.userPagesLoaded++;
@@ -99,7 +99,7 @@ async function loadUsers() {
 async function loadBotActions() {
   /* LOAD BOT ACTIONS */
   const wiki_bot_action_pages = await fetchAndSplit(
-    'https://www.reddit.com/r/UniversalScammerList/wiki/bot_actions.json'
+    'https://api.reddit.com/r/UniversalScammerList/wiki/bot_actions.json'
   );
   // We only want to get the last page from reddit as the rest are cached
   // so just get the number of the latest page on reddit

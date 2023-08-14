@@ -4,7 +4,7 @@ async function loadSubreddits() {
   let writeSublist = document.getElementById('writeSublist');
   let readSublist = document.getElementById('readSublist');
   const subreddits = await fetchAndSplit(
-    'https://www.reddit.com/r/UniversalScammerList/wiki/participating_subreddits.json'
+    'https://api.reddit.com/r/UniversalScammerList/wiki/participating_subreddits.json'
   );
   let inFirstList = false;
   for (const subreddit of subreddits) {
@@ -27,7 +27,7 @@ async function loadSubreddits() {
     var li = document.createElement('li');
     li.appendChild(a);
     if (inFirstList) {
-      writeSublist.appendChild(li); 
+      writeSublist.appendChild(li);
     } else {
       readSublist.appendChild(li);
     }

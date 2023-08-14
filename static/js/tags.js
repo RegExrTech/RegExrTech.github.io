@@ -3,7 +3,7 @@
 async function loadTags() {
   let taglist = document.getElementById('taglist');
   const tags = await fetchAndSplit(
-    'https://www.reddit.com/r/UniversalScammerList/wiki/public_tags.json'
+    'https://api.reddit.com/r/UniversalScammerList/wiki/public_tags.json'
   );
   for (const tag of tags) {
     if (tag == '') {
