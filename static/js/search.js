@@ -1,5 +1,7 @@
 'use strict';
 
+let public_tags = [];
+
 function CleanUsername(username) {
   username = username.trim();
   const username_parts = username.split('/');
@@ -27,6 +29,19 @@ function GetBanTags(username) {
   const context_lines = context_map.get(username);
   if (typeof context_lines !== 'undefined') {
     for (let context_line of context_lines) {
+      let tags = context_line.split("Tags Added: ")[1].split(", ");
+      let valid_tags = [];
+      for (const tag of tags) {
+        if (public_tags.includes(tag)) {
+          valid_tags.push(tag);
+        } else {
+          context_line = context_line.replace(tag, '');
+        }
+      }
+      if (valid_tags.length == 0) {
+        continue;
+      }
+      context_line = context_line.split("Tags Added: ")[0] + "Tags Added: " + valid_tags.join(", ");
       let li = document.createElement('li');
       li.innerHTML = context_line;
       ul.appendChild(li);
@@ -147,6 +162,23 @@ async function loadBotActions() {
   console.log('Done loading bot actions');
 }
 
+async function loadTags() {
+  let taglist = document.getElementById('taglist');
+  const tags = await fetchAndSplit(
+    'https://api.reddit.com/r/UniversalScammerList/wiki/public_tags.json'
+  );
+  for (const tag of tags) {
+    if (tag == '') {
+      //due to formatting issues, list has empty items that need to be skipped.
+      continue;
+    }
+
+    const content = tag.split('* ')[1].split('\n')[0];
+    public_tags.push("#" + content);
+  }
+  console.log("Loaded tags.")
+}
+
 function handleSearchURL() {
   //run a search if a user has a search in their URL i.e., /?username=foobar
   const urlParams = new URLSearchParams(window.location.search);
@@ -160,7 +192,10 @@ function handleSearchURL() {
   }
 }
 
-Promise.all([loadUsers(), loadBotActions(), pageLoadPromise]).then(function () {
-  handleSearchURL();
-  hideLoadingMessageAndShowUI();
+// loading tags needs to be done first so we can use it when creating user history.
+Promise.all([loadTags()]).then(function (){
+  Promise.all([loadUsers(), loadBotActions(), pageLoadPromise]).then(function () {
+    handleSearchURL();
+    hideLoadingMessageAndShowUI();
+  })
 });
