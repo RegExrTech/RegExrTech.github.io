@@ -29,7 +29,14 @@ function GetBanTags(username) {
   const context_lines = context_map.get(username);
   if (typeof context_lines !== 'undefined') {
     for (let context_line of context_lines) {
-      let tags = context_line.split("Tags Added: ")[1].split(", ");
+      console.log(context_line);
+      if (context_line.includes("Tags Added: ")){
+        let tags = context_line.split("Tags Added: ")[1].split(", ");
+      } else if (context_line.includes("Tags Removed: ")){
+        let tags = context_line.split("Tags Removed: ")[1].split(", ");
+      } else {
+        let tags = [];
+      }
       let valid_tags = [];
       for (const tag of tags) {
         if (public_tags.includes(tag)) {
@@ -41,7 +48,13 @@ function GetBanTags(username) {
       if (valid_tags.length == 0) {
         continue;
       }
-      context_line = context_line.split("Tags Added: ")[0] + "Tags Added: " + valid_tags.join(", ");
+      if (context_line.includes("Tags Added: ")){
+        context_line = context_line.split("Tags Added: ")[0] + "Tags Added: " + valid_tags.join(", ");
+      } else if (context_line.includes("Tags Removed: ")){
+        context_line = context_line.split("Tags Removed: ")[0] + "Tags Removed: " + valid_tags.join(", ");
+      } else {
+        context_line = context_line;
+      }
       let li = document.createElement('li');
       li.innerHTML = context_line;
       ul.appendChild(li);
