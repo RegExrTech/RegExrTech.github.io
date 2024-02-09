@@ -190,8 +190,12 @@ button:active {
   background: #e3f2fd;
 }
 
-#userStatusWrapper.banned {
+#userStatusWrapper.scammer {
   background: #ffebee;
+}
+
+#userStatusWrapper.banned {
+  background: #f7f5da;
 }
 
 .userStatusTitleRow {
@@ -205,6 +209,10 @@ button:active {
   flex-grow: 1;
 }
 
-#userStatusWrapper.banned h3 {
+#userStatusWrapper.scammer h3 {
   color: #d32f2f;
+}
+
+#userStatusWrapper.banned h3 {
+  color: #dbd03d;
 }

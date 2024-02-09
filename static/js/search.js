@@ -29,8 +29,12 @@ function GetBanTags(username) {
     document.getElementById('userStatusWrapper').classList.remove('banned');
   } else {
     document.getElementById('userStatus').innerHTML =
-      '/u/' + username + ' is banned with the following tags: ' + tags.join(' ');
-    document.getElementById('userStatusWrapper').classList.add('banned');
+      '/u/' + username + ' is BANNED with the following tags: ' + tags.join(' ');
+    if (tags.includes("#scammer")) {
+      document.getElementById('userStatusWrapper').classList.add('scammer');
+    } else {
+      document.getElementById('userStatusWrapper').classList.add('banned');
+    }
   }
 
   show('userStatusWrapper');
