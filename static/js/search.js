@@ -9,6 +9,18 @@ function CleanUsername(username) {
   return username;
 }
 
+function CleanTags(tags) {
+  var cleaned_tags = [];
+  for (let tag of tags) {
+    tag = tag.replace("[", "").replace("]", "").replace("u'", "").replace("'", "");
+    if (!tag.includes("#")) {
+      tag = "#" + tag;
+    }
+    cleaned_tags.push(tag);
+  }
+  return cleaned_tags;
+}
+
 function GetBanTags(username) {
   username = CleanUsername(username);
   const tags = user_map.get('/u/' + username);
@@ -36,8 +48,9 @@ function GetBanTags(username) {
       } else if (context_line.includes("Tags Removed: ")){
         tags = context_line.split("Tags Removed: ")[1].split(", ");
       }
-      let valid_tags = [];
+      tags = CleanTags(tags);
       console.log(tags);
+      let valid_tags = [];
       for (const tag of tags) {
         if (public_tags.includes(tag)) {
           valid_tags.push(tag);
