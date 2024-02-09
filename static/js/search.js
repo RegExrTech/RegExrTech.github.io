@@ -30,14 +30,14 @@ function GetBanTags(username) {
   if (typeof context_lines !== 'undefined') {
     for (let context_line of context_lines) {
       console.log(context_line);
+      let tags = [];
       if (context_line.includes("Tags Added: ")){
-        let tags = context_line.split("Tags Added: ")[1].split(", ");
+        tags = context_line.split("Tags Added: ")[1].split(", ");
       } else if (context_line.includes("Tags Removed: ")){
-        let tags = context_line.split("Tags Removed: ")[1].split(", ");
-      } else {
-        let tags = [];
+        tags = context_line.split("Tags Removed: ")[1].split(", ");
       }
       let valid_tags = [];
+      console.log(tags);
       for (const tag of tags) {
         if (public_tags.includes(tag)) {
           valid_tags.push(tag);
