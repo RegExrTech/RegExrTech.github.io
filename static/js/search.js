@@ -42,7 +42,7 @@ function GetBanTags(username) {
 
   let ul = document.getElementById('userHistory');
   ul.innerHTML = '';
-  const context_lines = context_map.get(username);
+  const context_lines = context_map.get(username).reverse();
   if (typeof context_lines !== 'undefined') {
     for (let context_line of context_lines) {
       console.log(context_line);
