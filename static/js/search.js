@@ -72,9 +72,36 @@ function GetBanTags(username) {
       } else {
         context_line = context_line;
       }
+      let action = context_line.split(' ')[0];
+      let date = context_line.split(' on ')[1].split( 'from ')[0];
+      let sub = context_line.split(' from ')[1].split(' with ')[0];
+      var context = context_line.split(' with context - ')[1].split(' - Tags ')[0];
+      context = context.trim();
+      if (context.startsWith('Tags ')) {context_line = '';}
+      if (context == '') {context = 'NO CONTEXT';}
+      let tags_added = valid_tags.join(", ");
       let li = document.createElement('li');
-      li.innerHTML = context_line;
+      li.innerHTML = '<b>Action</b>: ' + action.toUpperCase();
       ul.appendChild(li);
+
+      let sub_ul = document.createElement('ul');
+
+      let date_li = document.createElement('li');
+      date_li.innerHTML = '<b>Action Date</b>: ' + date;
+      let sub_li = document.createElement('li');
+      sub_li.innerHTML = '<b>From</b>: <a href=https://www.reddit.com/' + sub + '>' + sub + '</a>';
+      let context_li = document.createElement('li');
+      context_li.innerHTML = '<b>Context</b>: ' + context;
+      let tags_li = document.createElement('li');
+      if (action == 'unbanned') {tags_li.innerHTML = '<b>Tags Removed</b>: ' + tags_added;}
+      else {tags_li.innerHTML = '<b>Tags Added</b>: ' + tags_added;}
+
+      sub_ul.appendChild(tags_li);
+      sub_ul.appendChild(context_li);
+      sub_ul.appendChild(sub_li);
+      sub_ul.appendChild(date_li);
+
+      ul.appendChild(sub_ul);
     }
   }
 
