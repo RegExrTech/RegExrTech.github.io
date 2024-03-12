@@ -27,6 +27,7 @@ function GetBanTags(username) {
   if (typeof tags === 'undefined') {
     document.getElementById('userStatus').innerHTML = '/u/' + username + ' is not banned';
     document.getElementById('userStatusWrapper').classList.remove('banned');
+    document.getElementById('userStatusWrapper').classList.remove('scammer');
   } else {
     document.getElementById('userStatus').innerHTML =
       '/u/' + username + ' is BANNED with the following tags: ' + tags.join(' ');
