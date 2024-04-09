@@ -16,7 +16,7 @@ function CleanTags(tags) {
     if (!tag.includes("#")) {
       tag = "#" + tag;
     }
-    cleaned_tags.push(tag);
+    cleaned_tags.push(tag.trim());
   }
   return cleaned_tags;
 }
@@ -194,7 +194,7 @@ async function loadBotActions() {
     current_page++;
   }
   bot_action_pages.push(
-    wiki_bot_action_pages[wiki_bot_action_pages.length - 1].split('* ')[1] + '.json'
+    wiki_bot_action_pages[wiki_bot_action_pages.length - 1].split('* ')[1].replace('www', 'api') + '.json'
   );
 
   // Read data from pages
