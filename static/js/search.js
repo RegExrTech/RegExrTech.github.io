@@ -23,92 +23,96 @@ function CleanTags(tags) {
 
 function GetBanTags(username) {
   username = CleanUsername(username);
-  const tags = user_map.get('/u/' + username);
-  if (typeof tags === 'undefined') {
-    document.getElementById('userStatus').innerHTML = '/u/' + username + ' is not banned';
-    document.getElementById('userStatusWrapper').classList.remove('banned');
-    document.getElementById('userStatusWrapper').classList.remove('scammer');
-  } else {
-    document.getElementById('userStatus').innerHTML =
-      '/u/' + username + ' is BANNED with the following tags: ' + tags.join(' ');
-    if (tags.includes("#scammer")) {
-      document.getElementById('userStatusWrapper').classList.add('scammer');
+  Promise.all([loadConfirmations(username)]).then(function (){
+    const tags = user_map.get('/u/' + username);
+    if (typeof tags === 'undefined') {
+      document.getElementById('userStatus').innerHTML = '/u/' + username + ' is not banned';
+      document.getElementById('userStatusWrapper').classList.remove('banned');
+      document.getElementById('userStatusWrapper').classList.remove('scammer');
+      show("userConfirmations");
     } else {
-      document.getElementById('userStatusWrapper').classList.add('banned');
-    }
-  }
-
-  show('userStatusWrapper');
-  document.getElementById('copyURL').innerHTML = 'Copy URL';
-
-  let ul = document.getElementById('userHistory');
-  ul.innerHTML = '';
-  const context_lines = context_map.get(username);
-  if (typeof context_lines !== 'undefined') {
-    for (let context_line of context_lines.reverse()) {
-      console.log(context_line);
-      let tags = [];
-      if (context_line.includes("Tags Added: ")){
-        tags = context_line.split("Tags Added: ")[1].split(", ");
-      } else if (context_line.includes("Tags Removed: ")){
-        tags = context_line.split("Tags Removed: ")[1].split(", ");
-      }
-      tags = CleanTags(tags);
-      console.log(tags);
-      let valid_tags = [];
-      for (const tag of tags) {
-        if (public_tags.includes(tag)) {
-          valid_tags.push(tag);
-        } else {
-          context_line = context_line.replace(tag, '');
-        }
-      }
-      if (valid_tags.length == 0) {
-        continue;
-      }
-      if (context_line.includes("Tags Added: ")){
-        context_line = context_line.split("Tags Added: ")[0] + "Tags Added: " + valid_tags.join(", ");
-      } else if (context_line.includes("Tags Removed: ")){
-        context_line = context_line.split("Tags Removed: ")[0] + "Tags Removed: " + valid_tags.join(", ");
+      hide("userConfirmations");
+      document.getElementById('userStatus').innerHTML =
+        '/u/' + username + ' is BANNED with the following tags: ' + tags.join(' ');
+      if (tags.includes("#scammer")) {
+        document.getElementById('userStatusWrapper').classList.add('scammer');
       } else {
-        context_line = context_line;
+        document.getElementById('userStatusWrapper').classList.add('banned');
       }
-      let action = context_line.split(' ')[0];
-      let date = context_line.split(' on ')[1].split( 'from ')[0];
-      let sub = context_line.split(' from ')[1].split(' with ')[0];
-      var context = context_line.split(' with context - ')[1].split(' - Tags ')[0];
-      context = context.trim();
-      if (context.startsWith('Tags ')) {context_line = '';}
-      if (context == '') {context = 'NO CONTEXT';}
-      let tags_added = valid_tags.join(", ");
-      let li = document.createElement('li');
-      li.innerHTML = '<b>Action</b>: ' + action.toUpperCase();
-      ul.appendChild(li);
-
-      let sub_ul = document.createElement('ul');
-
-      let date_li = document.createElement('li');
-      date_li.innerHTML = '<b>Action Date</b>: ' + date;
-      let sub_li = document.createElement('li');
-      sub_li.innerHTML = '<b>From</b>: <a href=https://www.reddit.com/' + sub + '>' + sub + '</a>';
-      let context_li = document.createElement('li');
-      context_li.innerHTML = '<b>Context</b>: ' + context;
-      let tags_li = document.createElement('li');
-      if (action == 'unbanned') {tags_li.innerHTML = '<b>Tags Removed</b>: ' + tags_added;}
-      else {tags_li.innerHTML = '<b>Tags Added</b>: ' + tags_added;}
-
-      sub_ul.appendChild(tags_li);
-      sub_ul.appendChild(context_li);
-      sub_ul.appendChild(sub_li);
-      sub_ul.appendChild(date_li);
-
-      ul.appendChild(sub_ul);
     }
-  }
 
-  document.title = 'UniversalScammerList - /u/' + username;
-  //also push to history
-  history.pushState({}, '', '/?username=' + username);
+    show('userStatusWrapper');
+    document.getElementById('copyURL').innerHTML = 'Copy URL';
+
+    let ul = document.getElementById('userHistory');
+    ul.innerHTML = '';
+    const context_lines = context_map.get(username);
+    if (typeof context_lines !== 'undefined') {
+      for (let context_line of context_lines.reverse()) {
+        console.log(context_line);
+        let tags = [];
+        if (context_line.includes("Tags Added: ")){
+          tags = context_line.split("Tags Added: ")[1].split(", ");
+        } else if (context_line.includes("Tags Removed: ")){
+          tags = context_line.split("Tags Removed: ")[1].split(", ");
+        }
+        tags = CleanTags(tags);
+        console.log(tags);
+        let valid_tags = [];
+        for (const tag of tags) {
+          if (public_tags.includes(tag)) {
+            valid_tags.push(tag);
+          } else {
+            context_line = context_line.replace(tag, '');
+          }
+        }
+        if (valid_tags.length == 0) {
+          continue;
+        }
+        if (context_line.includes("Tags Added: ")){
+          context_line = context_line.split("Tags Added: ")[0] + "Tags Added: " + valid_tags.join(", ");
+        } else if (context_line.includes("Tags Removed: ")){
+          context_line = context_line.split("Tags Removed: ")[0] + "Tags Removed: " + valid_tags.join(", ");
+        } else {
+          context_line = context_line;
+        }
+        let action = context_line.split(' ')[0];
+        let date = context_line.split(' on ')[1].split( 'from ')[0];
+        let sub = context_line.split(' from ')[1].split(' with ')[0];
+        var context = context_line.split(' with context - ')[1].split(' - Tags ')[0];
+        context = context.trim();
+        if (context.startsWith('Tags ')) {context_line = '';}
+        if (context == '') {context = 'NO CONTEXT';}
+        let tags_added = valid_tags.join(", ");
+        let li = document.createElement('li');
+        li.innerHTML = '<b>Action</b>: ' + action.toUpperCase();
+        ul.appendChild(li);
+
+        let sub_ul = document.createElement('ul');
+
+        let date_li = document.createElement('li');
+        date_li.innerHTML = '<b>Action Date</b>: ' + date;
+        let sub_li = document.createElement('li');
+        sub_li.innerHTML = '<b>From</b>: <a href=https://www.reddit.com/' + sub + '>' + sub + '</a>';
+        let context_li = document.createElement('li');
+        context_li.innerHTML = '<b>Context</b>: ' + context;
+        let tags_li = document.createElement('li');
+        if (action == 'unbanned') {tags_li.innerHTML = '<b>Tags Removed</b>: ' + tags_added;}
+        else {tags_li.innerHTML = '<b>Tags Added</b>: ' + tags_added;}
+
+        sub_ul.appendChild(tags_li);
+        sub_ul.appendChild(context_li);
+        sub_ul.appendChild(sub_li);
+        sub_ul.appendChild(date_li);
+
+        ul.appendChild(sub_ul);
+      }
+    }
+
+    document.title = 'UniversalScammerList - /u/' + username;
+    //also push to history
+    history.pushState({}, '', '/?username=' + username);
+  })
 }
 
 // Copy the USL URL
@@ -170,7 +174,6 @@ async function loadUsers() {
 }
 
 async function loadBotActions() {
-  /* LOAD BOT ACTIONS */
   const wiki_bot_action_pages = await fetchAndSplit(
     'https://api.reddit.com/r/UniversalScammerList/wiki/bot_actions.json'
   );
@@ -235,6 +238,34 @@ async function loadTags() {
     public_tags.push("#" + content);
   }
   console.log("Loaded tags.")
+}
+
+async function loadConfirmations(username) {
+  let userConfirmations = document.getElementById('userConfirmations');
+  userConfirmations.innerHTML = '';
+  const conf_data = await fetchAndSplit(
+    'https://api.reddit.com/r/RegExrSwapBot/wiki/confirmations/' + username + '.json'
+  );
+  if (conf_data == null) {
+    return;
+  }
+  for (const line of conf_data) {
+    const content = line.split('* ')[1].split('\n')[0];
+    const count = content.split('[')[1].split(']')[0];
+    const sub = content.split(' on r/')[1];
+    var linkText = document.createTextNode(count);
+    var a = document.createElement('a');
+    a.appendChild(linkText);
+    a.title = count;
+    a.href = 'https://www.reddit.com/r/' + sub + "/wiki/confirmations/" + username;
+    a.target = '_blank';
+    var li = document.createElement('li');
+    li.appendChild(a);
+    var sub_text = document.createTextNode(" on r/" + sub);
+    li.appendChild(sub_text);
+    userConfirmations.appendChild(li);
+  }
+  console.log("Loaded confirmations.")
 }
 
 function handleSearchURL() {
