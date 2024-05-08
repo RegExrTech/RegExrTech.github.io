@@ -27,17 +27,16 @@ function GetBanTags(username) {
     const tags = user_map.get('/u/' + username);
     if (typeof tags === 'undefined') {
       document.getElementById('userStatus').innerHTML = '/u/' + username + ' is not banned';
-      document.getElementById('userStatusWrapper').classList.remove('banned');
-      document.getElementById('userStatusWrapper').classList.remove('scammer');
+      document.getElementById('userStatusWrapper').classList = [];
       show("userConfirmations");
     } else {
       hide("userConfirmations");
       document.getElementById('userStatus').innerHTML =
         '/u/' + username + ' is BANNED with the following tags: ' + tags.join(' ');
       if (tags.includes("#scammer")) {
-        document.getElementById('userStatusWrapper').classList.add('scammer');
+        document.getElementById('userStatusWrapper').classList = ['scammer'];
       } else {
-        document.getElementById('userStatusWrapper').classList.add('banned');
+        document.getElementById('userStatusWrapper').classList = ['banned'];
       }
     }
 
