@@ -7,7 +7,15 @@
 		}
 		if (urlParams.get('target')) {
 			const target = urlParams.get('target');
-			window.location.href = "https://click.linksynergy.com/deeplink?id=KO18Gur/F54&mid=13923&murl=" + target;
+			if urlParams.get('type') {
+				const type = urlParams.get('type');
+				if (type == 'cj') {
+					window.location.href = "https://www.dpbolvw.net/click-8743465-12695057?url=" + target;
+				} else if (type == 'rak') {
+					window.location.href = "https://click.linksynergy.com/deeplink?id=KO18Gur/F54&mid=13923&murl=" + target;
+
+				}
+			}
 		}
 	</script>
 </head>
