@@ -29,8 +29,10 @@ function GetBanTags(username) {
       document.getElementById('userStatus').innerHTML = '/u/' + username + ' is not banned';
       document.getElementById('userStatusWrapper').classList = [];
       show("userConfirmations");
+      hide("userHistory");
     } else {
       hide("userConfirmations");
+      show("userHistory");
       document.getElementById('userStatus').innerHTML =
         '/u/' + username + ' is BANNED with the following tags: ' + tags.join(' ');
       if (tags.includes("#scammer")) {
