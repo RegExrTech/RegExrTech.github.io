@@ -251,6 +251,9 @@ async function loadConfirmations(username) {
     return;
   }
   for (const line of conf_data) {
+    if (line == "") {
+      continue;
+    }
     const content = line.split('* ')[1].split('\n')[0];
     const count = content.split('[')[1].split(']')[0];
     const sub = content.split(' on r/')[1];
