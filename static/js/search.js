@@ -26,7 +26,7 @@ function GetBanTags(username) {
   Promise.all([loadConfirmations(username)]).then(function (){
     const tags = user_map.get('/u/' + username);
     if (typeof tags === 'undefined') {
-      document.getElementById('userStatus').innerHTML = '/u/' + username + ' is not banned';
+      document.getElementById('userStatus').innerHTML = '/u/' + username + ' is not on the Universal Scammer List';
       document.getElementById('userStatusWrapper').classList = [];
       show("userConfirmations");
       hide("userHistory");
