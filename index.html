@@ -45,14 +45,14 @@
 
     <h2 class="titleCTA">Search for Reddit scammers on the Universal Scammer List:</h2>
 
-    <div id="loadingMessage">Loading Database... <span id="loadingMessageDetails"></span></div>
+    <div id="loadingMessage" class="hidden">Loading Database... <span id="loadingMessageDetails"></span></div>
 
-    <form id="inputBox" class="awaiting-load" action="javascript:GetBanTags(username.value);">
+    <form id="inputBox" action="javascript:GetBanTags(username.value);">
       <input id="username" name="username" placeholder="Reddit Username" />
       <input id="searchButton" type="submit" value="Search" />
     </form>
 
-    <div id="userStatusWrapper" class="hidden">
+    <div id="userStatusWrapper">
       <div class="userStatusTitleRow">
         <h3 id="userStatus"></h3>
         <button id="copyURL" onclick="copyURL(username.value)">Copy URL</button>

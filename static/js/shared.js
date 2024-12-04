@@ -21,13 +21,6 @@ const pageLoadPromise = new Promise((resolve, reject) => {
   });
 });
 
-function hideLoadingMessageAndShowUI() {
-  document.getElementById('loadingMessage').classList.add('hidden');
-  while (document.getElementsByClassName('awaiting-load').length != 0) {
-    document.getElementsByClassName('awaiting-load')[0].classList.remove('awaiting-load');
-  }
-}
-
 function hide(id) {
   document.getElementById(id).classList.add('hidden');
 }

@@ -55,7 +55,6 @@ async function GetBanTags(username) {
       }
     }
 
-    show('userStatusWrapper');
     document.getElementById('copyURL').innerHTML = 'Copy URL';
 
     let ul = document.getElementById('userHistory');
@@ -137,45 +136,6 @@ function copyURL(username) {
   document.getElementById('copyURL').innerHTML = 'Copied!';
 }
 
-///////////////////
-// ON LOAD BELOW //
-///////////////////
-
-var user_map = new Map();
-var context_map = new Map();
-var loadStatus = {
-  userPagesLoaded: 0,
-  userPagesNeeded: '?',
-  botActionPagesLoaded: 0,
-  botActionPagesNeeded: '?',
-};
-
-function updateLoadText() {
-  document.getElementById('loadingMessageDetails').innerHTML =
-    (
-      (loadStatus.userPagesLoaded / loadStatus.userPagesNeeded) * 65 +
-      (loadStatus.botActionPagesLoaded / loadStatus.botActionPagesNeeded) * 35
-    ).toFixed(0) + '%';
-  //35 65 weighting split is arbitrary
-}
-
-async function loadTags() {
-  let taglist = document.getElementById('taglist');
-  const tags = await fetchAndSplit(
-    'https://api.reddit.com/r/UniversalScammerList/wiki/public_tags.json'
-  );
-  for (const tag of tags) {
-    if (tag == '') {
-      //due to formatting issues, list has empty items that need to be skipped.
-      continue;
-    }
-
-    const content = tag.split('* ')[1].split('\n')[0];
-    public_tags.push("#" + content);
-  }
-  console.log("Loaded tags.")
-}
-
 async function loadConfirmations(username) {
   let userConfirmations = document.getElementById('userConfirmations');
   userConfirmations.innerHTML = '';
@@ -207,6 +167,27 @@ async function loadConfirmations(username) {
   console.log("Loaded confirmations.")
 }
 
+///////////////////
+// ON LOAD BELOW //
+///////////////////
+
+async function loadTags() {
+  let taglist = document.getElementById('taglist');
+  const tags = await fetchAndSplit(
+    'https://api.reddit.com/r/UniversalScammerList/wiki/public_tags.json'
+  );
+  for (const tag of tags) {
+    if (tag == '') {
+      //due to formatting issues, list has empty items that need to be skipped.
+      continue;
+    }
+
+    const content = tag.split('* ')[1].split('\n')[0];
+    public_tags.push("#" + content);
+  }
+  console.log("Loaded tags.")
+}
+
 function handleSearchURL() {
   //run a search if a user has a search in their URL i.e., /?username=foobar
   const urlParams = new URLSearchParams(window.location.search);
@@ -223,5 +204,4 @@ function handleSearchURL() {
 // loading tags needs to be done first so we can use it when creating user history.
 Promise.all([loadTags()]).then(function (){
     handleSearchURL();
-    hideLoadingMessageAndShowUI();
 });
