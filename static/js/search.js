@@ -21,11 +21,24 @@ function CleanTags(tags) {
   return cleaned_tags;
 }
 
-function GetBanTags(username) {
+async function GetBanTags(username) {
   username = CleanUsername(username);
+  let ban_data = await fetchAndSplit(
+    'https://api.reddit.com/r/UniversalScammerList/wiki/database/' + username + '.json'
+  );
+  if (ban_data == null) {
+    ban_data = ["tags:"];
+  }
   Promise.all([loadConfirmations(username)]).then(function (){
-    const tags = user_map.get('/u/' + username);
-    if (typeof tags === 'undefined') {
+    const tags = ban_data[0].split(":")[1].split(",").map(function(e) { 
+      e = e.trim();
+      if (e != '' && !e.startsWith('#')) {
+        e = '#' + e;
+      }
+      return e;
+    });
+
+    if (typeof tags === 'undefined' || tags[0] == '') {
       document.getElementById('userStatus').innerHTML = '/u/' + username + ' is not on the Universal Scammer List';
       document.getElementById('userStatusWrapper').classList = [];
       show("userConfirmations");
@@ -47,9 +60,10 @@ function GetBanTags(username) {
 
     let ul = document.getElementById('userHistory');
     ul.innerHTML = '';
-    const context_lines = context_map.get(username);
+    const context_lines = ban_data.slice(1, ban_data.length);
     if (typeof context_lines !== 'undefined') {
       for (let context_line of context_lines.reverse()) {
+        context_line = context_line.split(' was ')[1];
         console.log(context_line);
         let tags = [];
         if (context_line.includes("Tags Added: ")){
@@ -145,85 +159,6 @@ function updateLoadText() {
   //35 65 weighting split is arbitrary
 }
 
-async function loadUsers() {
-  /* LOAD USERS */
-  const ban_list_pages = await fetchAndSplit(
-    'https://api.reddit.com/r/UniversalScammerList/wiki/banlist.json'
-  );
-
-  loadStatus.userPagesNeeded = ban_list_pages.length;
-  updateLoadText();
-
-  for (const page_context of ban_list_pages) {
-    const page_number = page_context.split(' ')[2].split(']')[0];
-    const users = await fetchAndSplit(
-      'https://api.reddit.com/r/UniversalScammerList/wiki/banlist/' + page_number + '.json'
-    );
-
-    loadStatus.userPagesLoaded++;
-    updateLoadText();
-
-    for (const user of users) {
-      const parts = user.split(' ');
-      const username = parts[1].toLowerCase();
-      const tags = parts.slice(2, parts.length);
-      user_map.set(username, tags);
-    }
-  }
-
-  console.log('Done loading users');
-}
-
-async function loadBotActions() {
-  const wiki_bot_action_pages = await fetchAndSplit(
-    'https://api.reddit.com/r/UniversalScammerList/wiki/bot_actions.json'
-  );
-  // We only want to get the last page from reddit as the rest are cached
-  // so just get the number of the latest page on reddit
-  const last_wiki_page_split = wiki_bot_action_pages[wiki_bot_action_pages.length - 1].split('/');
-  const last_wiki_page_number = parseInt(last_wiki_page_split[last_wiki_page_split.length - 1]);
-
-  loadStatus.botActionPagesNeeded = last_wiki_page_number;
-  updateLoadText();
-
-  // Collect all bot action pages
-  const bot_action_pages = [];
-  var current_page = 1;
-  while (current_page < last_wiki_page_number) {
-    bot_action_pages.push(
-      'https://www.universalscammerlist.com/static/data/bot_actions_' +
-        String(current_page) +
-        '.json'
-    );
-    current_page++;
-  }
-  bot_action_pages.push(
-    wiki_bot_action_pages[wiki_bot_action_pages.length - 1].split('* ')[1].replace('www', 'api') + '.json'
-  );
-
-  // Read data from pages
-  for (const context_page of bot_action_pages) {
-    var context = await fetchAndSplit(context_page);
-
-    loadStatus.botActionPagesLoaded++;
-    updateLoadText();
-
-    context.reverse();
-    for (const context_line of context) {
-      if (!context_line.includes('* u/')) {
-        continue;
-      }
-      const username = context_line.split(' ')[1].split('u/')[1].toLowerCase();
-      if (!context_map.get(username)) {
-        context_map.set(username, []);
-      }
-      context_map.get(username).push(context_line.split(' was ')[1]);
-    }
-  }
-
-  console.log('Done loading bot actions');
-}
-
 async function loadTags() {
   let taglist = document.getElementById('taglist');
   const tags = await fetchAndSplit(
@@ -287,8 +222,6 @@ function handleSearchURL() {
 
 // loading tags needs to be done first so we can use it when creating user history.
 Promise.all([loadTags()]).then(function (){
-  Promise.all([loadUsers(), loadBotActions(), pageLoadPromise]).then(function () {
     handleSearchURL();
     hideLoadingMessageAndShowUI();
-  })
 });
