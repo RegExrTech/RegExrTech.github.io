@@ -19,6 +19,4 @@ async function loadTags() {
   }
 }
 
-Promise.all([loadTags(), pageLoadPromise]).then(function () {
-  hideLoadingMessageAndShowUI();
-});
+loadTags();

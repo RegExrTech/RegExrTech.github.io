@@ -34,6 +34,4 @@ async function loadSubreddits() {
   }
 }
 
-Promise.all([loadSubreddits(), pageLoadPromise]).then(function () {
-  hideLoadingMessageAndShowUI();
-});
+loadSubreddits();
