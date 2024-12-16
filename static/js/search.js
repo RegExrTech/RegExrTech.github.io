@@ -21,6 +21,16 @@ function CleanTags(tags) {
   return cleaned_tags;
 }
 
+function RemovePrivateTags(tags) {
+  let to_return = [];
+  for (let tag of tags) {
+    if (public_tags.includes(tag)) {
+      to_return.push(tag);
+    }
+  }
+  return to_return;
+}
+
 async function GetBanTags(username) {
   username = CleanUsername(username);
   let ban_data = await fetchAndSplit(
@@ -30,15 +40,17 @@ async function GetBanTags(username) {
     ban_data = ["tags:"];
   }
   Promise.all([loadConfirmations(username)]).then(function (){
-    const tags = ban_data[0].split(":")[1].split(",").map(function(e) { 
+    let tags = ban_data[0].split(":")[1].split(",").map(function(e) { 
       e = e.trim();
       if (e != '' && !e.startsWith('#')) {
         e = '#' + e;
       }
       return e;
     });
+    tags = CleanTags(tags);
+    tags = RemovePrivateTags(tags);
 
-    if (typeof tags === 'undefined' || tags[0] == '') {
+    if (typeof tags === 'undefined' || tags.length == 0 || tags[0] == '') {
       document.getElementById('userStatus').innerHTML = '/u/' + username + ' is not on the Universal Scammer List';
       document.getElementById('userStatusWrapper').classList = [];
       show("userConfirmations");
