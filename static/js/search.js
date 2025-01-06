@@ -39,6 +39,12 @@ async function GetBanTags(username) {
   if (ban_data == null) {
     ban_data = ["tags:"];
   }
+  if (ban_data[0] == 'error') {
+    hide("userConfirmations");
+    hide("userHistory");
+    return;
+  }
+
   Promise.all([loadConfirmations(username)]).then(function (){
     let tags = ban_data[0].split(":")[1].split(",").map(function(e) { 
       e = e.trim();
