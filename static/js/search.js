@@ -31,6 +31,11 @@ function RemovePrivateTags(tags) {
   return to_return;
 }
 
+async function redirect(username) {
+  let url = window.location.href.split("?")[0]
+  window.location.href = url + "?username=" + username;
+}
+
 async function GetBanTags(username) {
   username = CleanUsername(username);
   let ban_data = await fetchAndSplit(
@@ -142,8 +147,6 @@ async function GetBanTags(username) {
     }
 
     document.title = 'UniversalScammerList - /u/' + username;
-    //also push to history
-    history.pushState({}, '', '/?username=' + username);
   })
 }
 
