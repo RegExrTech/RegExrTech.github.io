@@ -85,7 +85,7 @@ async function GetBanTags(username) {
     const context_lines = ban_data.slice(1, ban_data.length);
     if (typeof context_lines !== 'undefined') {
       for (let context_line of context_lines.reverse()) {
-        context_line = context_line.split(' was ')[1];
+        context_line = context_line.split(' was ').slice(1).join(' was ');
         console.log(context_line);
         let tags = [];
         if (context_line.includes("Tags Added: ")){
