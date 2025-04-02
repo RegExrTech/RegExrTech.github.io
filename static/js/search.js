@@ -130,7 +130,7 @@ async function GetBanTags(username) {
         let date_li = document.createElement('li');
         date_li.innerHTML = '<b>Action Date</b>: ' + date;
         let sub_li = document.createElement('li');
-        sub_li.innerHTML = '<b>From</b>: <a href=https://www.reddit.com/' + sub + '>' + sub + '</a>';
+        sub_li.innerHTML = '<b>Added By</b>: <a href=https://www.reddit.com/' + sub + '>' + sub + '</a>';
         let context_li = document.createElement('li');
         context_li.innerHTML = '<b>Context</b>: ' + context;
         let tags_li = document.createElement('li');
