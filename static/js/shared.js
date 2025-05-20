@@ -1,7 +1,12 @@
 'use strict';
 
 function fetchAndSplit(url) {
-  return fetch(url)
+  let headers = new Headers({
+    "Accept": "application/JSON",
+    "Content-Type": "application/JSON",
+    "User-Agent": "USL SITE ACCESS for " + url
+  })
+  return fetch('https://corsproxy.io/' + url)
     .then((res) => {
       hide('loadingMessage');
       if (res.status == '404') {
