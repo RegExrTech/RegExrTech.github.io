@@ -11,7 +11,7 @@ function fetchAndSplit(url) {
     })
     .then((res) => res.data.content_md.split('\n'))
     .catch((error) => {
-      console.error('fetchAndSplit saw error:', error);
+      console.error('[' + url + '] fetchAndSplit saw error:', error);
       if (!error.message.includes('404')) {
         document.getElementById(
           'loadingMessage'
