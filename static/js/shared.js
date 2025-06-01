@@ -6,7 +6,7 @@ function fetchAndSplit(url) {
     "Content-Type": "application/JSON",
     "User-Agent": "USL SITE ACCESS for " + url
   })
-  return fetch('https://corsproxy.io/' + url)
+  return fetch('https://corsproxy.io/?url=' + url)
     .then((res) => {
       hide('loadingMessage');
       if (res.status == '404') {
