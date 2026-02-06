@@ -6,8 +6,8 @@ function fetchAndSplit(url) {
     "Content-Type": "application/JSON",
     "User-Agent": "USL SITE ACCESS for " + url
   })
-  // return fetch('https://corsproxy.io/' + url)
-  return fetch(url)
+  return fetch('https://api.codetabs.com/v1/proxy?quest=' + url)
+  // return fetch(url)
     .then((res) => {
       hide('loadingMessage');
       if (res.status == '404') {
