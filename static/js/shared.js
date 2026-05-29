@@ -6,8 +6,8 @@ function fetchAndSplit(url) {
     "Content-Type": "application/JSON",
     "User-Agent": "USL SITE ACCESS for " + url
   })
-  return fetch('https://cloudflare-cors-anywhere-2.autumn-truth-a2b6.workers.dev/?' + url)
-  // return fetch(url)
+//  return fetch('https://cloudflare-cors-anywhere-2.autumn-truth-a2b6.workers.dev/?' + url)
+  return fetch(url)
     .then((res) => {
       hide('loadingMessage');
       if (res.status == '404') {
