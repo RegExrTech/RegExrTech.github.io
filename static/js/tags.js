@@ -19,4 +19,4 @@ async function loadTags() {
   }
 }
 
-// loadTags();
+loadTags();
