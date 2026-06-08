@@ -40,7 +40,7 @@ async function DisplayUserLink(username) {
   hide("userConfirmations");
   hide("userHistory");
   username = CleanUsername(username);
-  let usl_url = 'https://www.reddit.com/r/UniversalScammerList/about/wiki/database/' + username;
+  let usl_url = 'https://www.reddit.com/r/UniversalScammerList/wiki/database/' + username;
   document.getElementById('directUserLink').innerHTML = 'Click <a href=' + usl_url + '>this link</a> to see if u/' + username + ' is on the Universal Scammer List: <a href=' + usl_url + '>' + usl_url + '</a><br><br>Note that an empty file or no data implies that the user is NOT on the USL.<br><br>If there is data in the file, just look at the first line that says "tags:". If there are tags and any of them say "scammer", then the user is a scammer.<br><br>This janky half-measure is in place because reddit disabled our ability to pull these wiki pages from reddit to the USL site, so in the meantime, you have to nagivate to them manually. Sorry for the inconvenience.';
   show("directUserLink");
 }
@@ -48,7 +48,7 @@ async function DisplayUserLink(username) {
 async function GetBanTags(username) {
   username = CleanUsername(username);
   let ban_data = await fetchAndSplit(
-    'https://api.reddit.com/r/UniversalScammerList/about/wiki/database/' + username + '.json'
+    'https://api.reddit.com/r/UniversalScammerList/wiki/database/' + username + '.json'
   );
   if (ban_data == null) {
     ban_data = ["tags:"];
